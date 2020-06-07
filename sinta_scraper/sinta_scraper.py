@@ -32,7 +32,7 @@ def author(author_id, output_format='dictionary', pretty_print=None):
 
     affiliation = soup.select('.au-affil > a')
     affiliation_name = affiliation[0].text
-    affiliation_url = 'http://sinta.ristekbrin.go.id/' + affiliation[0]['href']
+    affiliation_url = 'http://sinta.ristekbrin.go.id' + affiliation[0]['href']
     affiliation_id = re.search(r'id=(\d+)', affiliation_url).group(1)
 
     result = {

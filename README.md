@@ -77,7 +77,7 @@ For example:
 author = sinta.author(id, output_format='xml', xml_library='dict2xml')
 ```
 
-If you want the XML output to be pretty-printed, you need to choose the `dict2xml` since `xmltodict` does not produce pretty-printed XML output.
+If you want the XML output to be pretty-printed, you need to choose `dict2xml` since `xmltodict` does not produce pretty-printed XML output.
 
 ### Available Functions
 - `author(sinta_id)`: gets an author's information. 
