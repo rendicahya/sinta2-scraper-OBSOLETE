@@ -26,7 +26,7 @@ The default output is Python dictionary. The structure is given in the following
  'url': 'http://sinta.ristekbrin.go.id/authors/detail?id=5975467&view=overview',
  'affiliation': {'id': '417',
                  'name': 'Institut Teknologi Sepuluh Nopember',
-                 'url': 'http://sinta.ristekbrin.go.id//affiliations/detail/?id=417&view=overview'},
+                 'url': 'http://sinta.ristekbrin.go.id/affiliations/detail/?id=417&view=overview'},
  'areas': ['computer vision',
            'image processing',
            'information retrieval',
