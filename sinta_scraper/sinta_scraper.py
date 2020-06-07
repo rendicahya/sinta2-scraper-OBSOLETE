@@ -3,8 +3,10 @@ import re
 from bs4 import BeautifulSoup
 from requests import get
 
+import utils
 
-def author(author_id):
+
+def author(author_id, output_format='dict', pretty_print=None):
     url = f'http://sinta.ristekbrin.go.id/authors/detail?id={author_id}&view=overview'
     html = get(url)
     soup = BeautifulSoup(html.content, 'html.parser')
@@ -33,7 +35,7 @@ def author(author_id):
     affiliation_url = 'http://sinta.ristekbrin.go.id/' + affiliation[0]['href']
     affiliation_id = re.search(r'id=(\d+)', affiliation_url).group(1)
 
-    return {
+    result = {
         'id': author_id,
         'name': name,
         'url': url,
@@ -51,8 +53,10 @@ def author(author_id):
         'ipr': ipr
     }
 
+    return utils.format_output(result, output_format=output_format, pretty_print=pretty_print)
 
-def dept_authors(affil_id, dept_id):
+
+def dept_authors(affil_id, dept_id, output_format='dict', pretty_print=None):
     url = f'http://sinta.ristekbrin.go.id/departments/detail?afil={affil_id}&id={dept_id}&view=authors'
     html = get(url)
     soup = BeautifulSoup(html.content, 'html.parser')
@@ -76,4 +80,4 @@ def dept_authors(affil_id, dept_id):
                 'name': author_name.title()
             })
 
-    return authors
+    return utils.format_output(authors, output_format=output_format, pretty_print=pretty_print)
