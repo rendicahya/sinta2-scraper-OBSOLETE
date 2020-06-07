@@ -5,6 +5,8 @@ Retrieves information from Sinta (http://sinta.ristekbrin.go.id) via scraping.
 ## Installation
 `pip install sinta-scraper`
 
+Dependencies: bs4, requests, dicttoxml, dict2xml. These will be automatically installed by pip with the above command.
+
 ## Usage
 
 ### Import
@@ -61,10 +63,21 @@ Avalable output formats:
 - `'json'`
 - `'xml'`
 
-JSON output can be pretty printed by setting `pretty_print=True`:
+JSON output can be pretty-printed by setting `pretty_print=True`:
 ```
 author = sinta.author(id, output_format='json', pretty_print=True)
 ```
+
+For XML output, there are two library options which can be specified in the `xml_library` argument. These libraries give different output formats. The options are:
+- `dicttoxml` (default)
+- `dict2xml`
+
+For example:
+```
+author = sinta.author(id, output_format='xml', xml_library='dict2xml')
+```
+
+If you want the XML output to be pretty-printed, you need to choose the `dict2xml` since `xmltodict` does not produce pretty-printed XML output.
 
 ### Available Functions
 - `author(sinta_id)`: gets an author's information. 
