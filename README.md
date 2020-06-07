@@ -1,6 +1,6 @@
 # Sinta Scraper
 
-Retrieve various information from Sinta (http://sinta.ristekbrin.go.id) via scraping.
+Retrieves information from Sinta (http://sinta.ristekbrin.go.id) via scraping.
 
 ## Installation
 `pip install sinta-scraper`
@@ -17,14 +17,61 @@ author = sinta.author(id)
 ```
 
 ### Output
-The output is of dictionary type.
+The default output is Python dictionary. The structure is given in the following sample output.
+```
+{'id': '5975467',
+ 'name': 'Agus Zainal Arifin',
+ 'url': 'http://sinta.ristekbrin.go.id/authors/detail?id=5975467&view=overview',
+ 'affiliation': {'id': '417',
+                 'name': 'Institut Teknologi Sepuluh Nopember',
+                 'url': 'http://sinta.ristekbrin.go.id//affiliations/detail/?id=417&view=overview'},
+ 'areas': ['computer vision',
+           'image processing',
+           'information retrieval',
+           'medical imaging',
+           'machine learning'],
+ 'score': {'overall': 36.9,
+           '3_years': 7.26,
+           'overall_v2': 3304.0,
+           '3_years_v2': 1284.5},
+ 'rank': {'national': 614,
+          '3_years_national': 472,
+          'affiliation': 26,
+          '3_years_affiliation': 21},
+ 'scopus': {'documents': '50',
+            'citations': '341',
+            'h-index': '8',
+            'i10-index': '6',
+            'g-index': '14'},
+ 'scholar': {'documents': '220',
+             'citations': '1067',
+             'h-index': '13',
+             'i10-index': '23',
+             'g-index': '25'},
+ 'books': 0,
+ 'ipr': 2}
+```
+
+Other formats can be used by specifying the `output_format` argument:
+```
+author = sinta.author(id, output_format='json')
+```
+Avalable output formats:
+- `'dictionary'` (default)
+- `'json'`
+- `'xml'`
+
+JSON output can be pretty printed by setting `pretty_print=True`:
+```
+author = sinta.author(id, output_format='json', pretty_print=True)
+```
 
 ### Available Functions
 - `author(sinta_id)`: gets an author's information. 
 - `dept_authors(dept_id)`: gets authors associated with a department.
 
 ### Todo
-- Various output formats: JSON, XML.
+- Other output formats: CSV.
 - `affil(affil_id)` function.
 - `find_affil(keyword)` function.
 - `affil_depts(affil_id)` function.
