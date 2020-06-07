@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+# PyPI
+build
+dist
+sinta_scraper.egg-info
+setup.py
