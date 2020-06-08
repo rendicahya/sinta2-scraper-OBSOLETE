@@ -1,4 +1,5 @@
 import re
+import threading
 
 from bs4 import BeautifulSoup
 from requests import get
@@ -6,7 +7,31 @@ from requests import get
 import utils
 
 
-def author(author_id, output_format='dictionary', pretty_print=None):
+def author(author_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml'):
+    worker_result = []
+
+    worker(author_id, worker_result)
+
+    return utils.format_output(worker_result[0], output_format, pretty_print, xml_library)
+
+
+def authors(author_ids, output_format='dictionary', pretty_print=None, xml_library='dicttoxml'):
+    threads = []
+    worker_result = []
+
+    for author_id in author_ids:
+        thread = threading.Thread(target=worker, args=(author_id, worker_result))
+
+        thread.start()
+        threads.append(thread)
+
+    for thread in threads:
+        thread.join()
+
+    return utils.format_output(worker_result, output_format, pretty_print, xml_library)
+
+
+def worker(author_id, worker_result):
     url = f'http://sinta.ristekbrin.go.id/authors/detail?id={author_id}&view=overview'
     html = get(url)
     soup = BeautifulSoup(html.content, 'html.parser')
@@ -35,7 +60,7 @@ def author(author_id, output_format='dictionary', pretty_print=None):
     affiliation_url = 'http://sinta.ristekbrin.go.id' + affiliation[0]['href']
     affiliation_id = re.search(r'id=(\d+)', affiliation_url).group(1)
 
-    result = {
+    result_data = {
         'id': author_id,
         'name': name,
         'url': url,
@@ -53,5 +78,4 @@ def author(author_id, output_format='dictionary', pretty_print=None):
         'ipr': ipr
     }
 
-    return utils.format_output(result, output_format=output_format, pretty_print=pretty_print)
-
+    worker_result.append(result_data)

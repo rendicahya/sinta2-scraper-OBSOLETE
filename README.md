@@ -5,21 +5,23 @@ Retrieves information from Sinta (http://sinta.ristekbrin.go.id) via scraping.
 ## Installation
 `pip install sinta-scraper`
 
-Dependencies: bs4, requests, dicttoxml, dict2xml. These will be automatically installed by pip with the above command.
+Dependencies: `bs4`, `requests`, `dicttoxml`, and `dict2xml`. These will be automatically installed by pip with the above command.
 
-## Usage
-
-### Import
+## Importing
 `import sinta-scraper as sinta`
 
-### Get author information by Sinta ID
+## Available Functions
+- ### `author()`
+Retrieves a single author's information by Sinta ID. For example:
 ```
-id = '5975467'
-author = sinta.author(id)
+author_id = '5975467'
+author = sinta.author(author_id)
+
+print(author['name'])
+# Output: Agus Zainal Arifin
 ```
 
-### Output
-The default output is Python dictionary. The structure is given in the following sample output.
+The output format is the Python dictionary. The structure is given in the following sample output.
 ```
 {'id': '5975467',
  'name': 'Agus Zainal Arifin',
@@ -54,10 +56,35 @@ The default output is Python dictionary. The structure is given in the following
  'ipr': 2}
 ```
 
+- ### `authors()`
+Retrieves several author's information by Sinta ID. For example:
+```
+author_ids = ['5975467', '6005015', '29555']
+authors = sinta.authors(author_ids)
+
+print(authors[1]['name'])
+# Output: Mauridhi Hery Purnomo
+```
+
+The output is a list of dictionaries with the same structure given by the `author()` function.
+
+### - `dept_authors()`
+Retrieves a list of authors associated with a department. Department ID and affiliation ID must be specified. The output structure is different from that given by the previous function. This function retrieves only the ID's and names of each author. For example:
+```
+dept_id = '55001'
+affil_id = '417'
+authors = sinta.dept_authors(dept_id, affil_id)
+
+print(authors[:3)
+# Output: [{'id': '29555', 'name': 'Riyanarto Sarno'}, {'id': '5975467', 'name': 'Agus Zainal Arifin'}, {'id': '6023328', 'name': 'Nanik Suciati'}]
+```
+
+### Other Output Formats
 Other formats can be used by specifying the `output_format` argument:
 ```
 author = sinta.author(id, output_format='json')
 ```
+
 Avalable output formats:
 - `'dictionary'` (default)
 - `'json'`
@@ -77,15 +104,10 @@ For example:
 author = sinta.author(id, output_format='xml', xml_library='dict2xml')
 ```
 
-If you want the XML output to be pretty-printed, you need to choose `dict2xml` since `xmltodict` does not produce pretty-printed XML output.
-
-### Available Functions
-- `author(sinta_id)`: gets an author's information. 
-- `dept_authors(dept_id)`: gets authors associated with a department. Internally, it uses multithreading to perform multiple requests in one go.
+If you want the XML output to be pretty-printed, you need to choose `dict2xml` instead of `xmltodict` since the latter does not produce pretty-printed XML output.
 
 ### Todo
 - Other output formats: CSV.
-- `authors(*author_ids)` function.
 - `affil(affil_id)` function.
 - `find_affil(keyword)` function.
 - `affil_depts(affil_id)` function.
