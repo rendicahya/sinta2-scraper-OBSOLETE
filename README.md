@@ -79,7 +79,7 @@ print(authors[:3)
 # Output: [{'id': '29555', 'name': 'Riyanarto Sarno'}, {'id': '5975467', 'name': 'Agus Zainal Arifin'}, {'id': '6023328', 'name': 'Nanik Suciati'}]
 ```
 
-### Other Output Formats
+## Other Output Formats
 Other formats can be used by specifying the `output_format` argument:
 ```
 author = sinta.author(id, output_format='json')
