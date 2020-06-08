@@ -81,10 +81,11 @@ If you want the XML output to be pretty-printed, you need to choose `dict2xml` s
 
 ### Available Functions
 - `author(sinta_id)`: gets an author's information. 
-- `dept_authors(dept_id)`: gets authors associated with a department.
+- `dept_authors(dept_id)`: gets authors associated with a department. Internally, it uses multithreading to perform multiple requests in one go.
 
 ### Todo
 - Other output formats: CSV.
+- `authors(*author_ids)` function.
 - `affil(affil_id)` function.
 - `find_affil(keyword)` function.
 - `affil_depts(affil_id)` function.

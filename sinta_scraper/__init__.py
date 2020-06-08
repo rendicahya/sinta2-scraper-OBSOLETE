@@ -1,1 +1,2 @@
-from sinta_scraper.sinta_scraper import *
+from sinta_scraper.sinta_scraper import author
+from sinta_scraper.dept_retriever import dept_authors

@@ -55,29 +55,3 @@ def author(author_id, output_format='dictionary', pretty_print=None):
 
     return utils.format_output(result, output_format=output_format, pretty_print=pretty_print)
 
-
-def dept_authors(affil_id, dept_id, output_format='dictionary', pretty_print=None):
-    url = f'http://sinta.ristekbrin.go.id/departments/detail?afil={affil_id}&id={dept_id}&view=authors'
-    html = get(url)
-    soup = BeautifulSoup(html.content, 'html.parser')
-    page_info = soup.select('.uk-width-large-1-2.table-footer')
-    max_page = int(page_info[0].text.strip().split()[3])
-    authors = []
-
-    for page in range(1, max_page + 1):
-        page_url = f'http://sinta.ristekbrin.go.id/departments/detail?page={page}&afil={affil_id}&id={dept_id}&view=authors&sort=year2'
-        page_html = get(page_url)
-        page_soup = BeautifulSoup(page_html.content, 'html.parser')
-        links = page_soup.select('.uk-description-list-line .text-blue')
-
-        for i in range(len(links)):
-            link = links[i]
-            author_id = re.search(r'id=(\d+)', link['href']).group(1)
-            author_name = link.text
-
-            authors.append({
-                'id': author_id,
-                'name': author_name.title()
-            })
-
-    return utils.format_output(authors, output_format=output_format, pretty_print=pretty_print)
