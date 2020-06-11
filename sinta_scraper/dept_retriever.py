@@ -14,9 +14,9 @@ def dept_authors(dept_id, affil_id, output_format='dictionary', pretty_print=Non
     page_info = soup.select('.uk-width-large-1-2.table-footer')
     n_page = int(page_info[0].text.strip().split()[3])
     threads = []
-    worker_result = []
+    worker_result = parse(soup)
 
-    for page in range(1, n_page + 1):
+    for page in range(2, n_page + 1):
         thread = threading.Thread(target=dept_authors_worker, args=(dept_id, affil_id, page, worker_result))
 
         thread.start()
@@ -32,17 +32,26 @@ def dept_authors_worker(dept_id, affil_id, page, worker_result):
     page_url = f'http://sinta.ristekbrin.go.id/departments/detail?page={page}&afil={affil_id}&id={dept_id}&view=authors&sort=year2'
     page_html = get(page_url)
     page_soup = BeautifulSoup(page_html.content, 'html.parser')
-    links = page_soup.select('.uk-description-list-line .text-blue')
+    data = parse(page_soup)
+
+    worker_result.extend(data)
+
+
+def parse(soup):
+    links = soup.select('.uk-description-list-line .text-blue')
+    result = []
 
     for i in range(len(links)):
         link = links[i]
         author_id = re.search(r'id=(\d+)', link['href']).group(1)
         author_name = link.text
 
-        worker_result.append({
+        result.append({
             'id': author_id,
             'name': author_name.title()
         })
+
+    return result
 
 
 def depts_authors(dept_ids, affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml'):
