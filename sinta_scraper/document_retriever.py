@@ -16,7 +16,7 @@ def author_scholar_docs(author_id, output_format='dictionary', pretty_print=None
     worker_result = []
 
     for page in range(1, n_page + 1):
-        thread = threading.Thread(target=author_scholar_docs_worker, args=(author_id, page, worker_result))
+        thread = threading.Thread(target=worker, args=(author_id, page, worker_result))
 
         thread.start()
         threads.append(thread)
@@ -27,7 +27,7 @@ def author_scholar_docs(author_id, output_format='dictionary', pretty_print=None
     return utils.format_output(worker_result, output_format, pretty_print, xml_library)
 
 
-def author_scholar_docs_worker(author_id, page, worker_result):
+def worker(author_id, page, worker_result):
     page_url = f'http://sinta.ristekbrin.go.id/authors/detail?page={page}&id={author_id}&view=documentsgs'
     page_html = get(page_url)
     page_soup = BeautifulSoup(page_html.content, 'html.parser')
