@@ -114,3 +114,6 @@ If you want the XML output to be pretty-printed, you need to choose `dict2xml` i
 - `affil_authors(affil_id)` function.
 - `dept(dept_id)` function.
 - `find_dept(keyword)` function.
+- `author_scopus_docs(author_id)` function.
+- `author_wos_docs(author_id)` function.
+- `author_books(author_id)` function.
