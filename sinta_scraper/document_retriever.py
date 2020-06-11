@@ -36,11 +36,10 @@ def author_scholar_docs_worker(author_id, page, worker_result):
     for tr in trs:
         link = tr.select('a.paper-link')
 
-        if len(link) < 1:
+        if not link:
             continue
 
         link = link[0]
-
         info = tr.select('dd.indexed-by')[0].text.strip().split('|')
         publisher = info[0].strip()
         year = int(info[3].strip())
