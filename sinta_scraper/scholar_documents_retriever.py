@@ -60,7 +60,3 @@ def parse(soup):
         })
 
     return result
-
-
-if __name__ == '__main__':
-    print(author_scholar_docs('29555', output_format='json', pretty_print=True))

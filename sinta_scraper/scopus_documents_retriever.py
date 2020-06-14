@@ -1,5 +1,5 @@
 import threading
-
+import re
 from bs4 import BeautifulSoup
 from requests import get
 from string_utils.validation import is_integer
@@ -15,6 +15,8 @@ def author_scopus_docs(author_id, output_format='dictionary', pretty_print=None,
     n_page = int(page_info[0].text.strip().split()[3])
     threads = []
     worker_result = parse(soup)
+
+    n_page = 1
 
     for page in range(2, n_page + 1):
         thread = threading.Thread(target=worker, args=(author_id, page, worker_result))
@@ -59,12 +61,8 @@ def parse(soup):
             'publisher': info2[0].strip(),
             'date': info2[3].strip(),
             'type': info2[4].strip(),
-            'quartile': quartile,
+            'quartile': int(quartile[1]) if re.search(r'^Q([1-4]){1}$', quartile) else '-',
             'citations': int(citations) if is_integer(citations) else 0
         })
 
     return result
-
-
-if __name__ == '__main__':
-    print(author_scopus_docs('29555', output_format='json', pretty_print=True))
