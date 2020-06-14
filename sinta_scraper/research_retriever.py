@@ -29,27 +29,27 @@ def author_researches(author_id, output_format='dictionary', pretty_print=None, 
 
 
 def worker(author_id, page, worker_result):
-    page_url = f'http://sinta.ristekbrin.go.id/authors/detail?page={page}&id={author_id}&view=research'
-    page_html = get(page_url)
-    page_soup = BeautifulSoup(page_html.content, 'html.parser')
-    data = parse(page_soup)
+    url = f'http://sinta.ristekbrin.go.id/authors/detail?page={page}&id={author_id}&view=research'
+    html = get(url)
+    soup = BeautifulSoup(html.content, 'html.parser')
+    data = parse(soup)
 
     worker_result.extend(data)
 
 
 def parse(soup):
-    trs = soup.select('table.uk-table tr')
+    rows = soup.select('table.uk-table tr')
     result = []
 
-    for tr in trs:
-        link = tr.select('a.paper-link')
+    for row in rows:
+        link = row.select('a.paper-link')
 
         if not link:
             continue
 
         link = link[0]
-        info1 = tr.select('dd.indexed-by-orange')[0].text.strip().split('|')
-        dd = tr.select('dd')
+        info1 = row.select('dd.indexed-by-orange')[0].text.strip().split('|')
+        dd = row.select('dd')
         info2 = [i.strip().split(':')[1].strip() for i in dd[2].text.strip().split('\r\n')]
         members = [member.strip() for member in dd[1].text.split(',') if member.strip()]
 

@@ -29,10 +29,10 @@ def dept_authors(dept_id, affil_id, output_format='dictionary', pretty_print=Non
 
 
 def dept_authors_worker(dept_id, affil_id, page, worker_result):
-    page_url = f'http://sinta.ristekbrin.go.id/departments/detail?page={page}&afil={affil_id}&id={dept_id}&view=authors&sort=year2'
-    page_html = get(page_url)
-    page_soup = BeautifulSoup(page_html.content, 'html.parser')
-    data = parse(page_soup)
+    url = f'http://sinta.ristekbrin.go.id/departments/detail?page={page}&afil={affil_id}&id={dept_id}&view=authors&sort=year2'
+    html = get(url)
+    soup = BeautifulSoup(html.content, 'html.parser')
+    data = parse(soup)
 
     worker_result.extend(data)
 

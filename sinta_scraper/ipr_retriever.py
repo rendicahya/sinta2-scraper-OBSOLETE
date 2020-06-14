@@ -28,26 +28,26 @@ def author_ipr(author_id, output_format='dictionary', pretty_print=None, xml_lib
 
 
 def worker(author_id, page, worker_result):
-    page_url = f'http://sinta.ristekbrin.go.id/authors/detail?page={page}&id={author_id}&view=ipr'
-    page_html = get(page_url)
-    page_soup = BeautifulSoup(page_html.content, 'html.parser')
-    data = parse(page_soup)
+    url = f'http://sinta.ristekbrin.go.id/authors/detail?page={page}&id={author_id}&view=ipr'
+    html = get(url)
+    soup = BeautifulSoup(html.content, 'html.parser')
+    data = parse(soup)
 
     worker_result.extend(data)
 
 
 def parse(soup):
-    trs = soup.select('table.uk-table tr')
+    rows = soup.select('table.uk-table tr')
     result = []
 
-    for tr in trs:
-        h4 = tr.select('h4.uk-text-primary')
+    for row in rows:
+        h4 = row.select('h4.uk-text-primary')
 
         if not h4:
             continue
 
         h4 = h4[0]
-        info = tr.select('.uk-text-success')
+        info = row.select('.uk-text-success')
 
         result.append({
             'id': info[0].text.strip(),
