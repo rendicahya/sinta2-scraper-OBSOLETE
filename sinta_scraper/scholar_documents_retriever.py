@@ -2,6 +2,7 @@ import threading
 
 from bs4 import BeautifulSoup
 from requests import get
+from string_utils.validation import is_integer
 
 import utils
 
@@ -48,14 +49,18 @@ def parse(soup):
 
         link = link[0]
         info = row.select('dd.indexed-by')[0].text.strip().split('|')
-        publisher = info[0].strip()
-        year = int(info[3].strip())
+        citations = row.select('.index-val')[0].text.strip()
 
         result.append({
             'title': link.text,
             'url': link['href'],
-            'publisher': publisher,
-            'year': year
+            'publisher': info[0].strip(),
+            'year': int(info[3].strip()),
+            'citations': int(citations) if is_integer(citations) else 0
         })
 
     return result
+
+
+if __name__ == '__main__':
+    print(author_scholar_docs('29555', output_format='json', pretty_print=True))
