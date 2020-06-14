@@ -1,5 +1,6 @@
-import threading
 import re
+import threading
+
 from bs4 import BeautifulSoup
 from requests import get
 from string_utils.validation import is_integer
