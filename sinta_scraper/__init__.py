@@ -1,4 +1,5 @@
 from sinta_scraper.author_retriever import author, authors
+from sinta_scraper.comm_svc_retriever import author_comm_services
 from sinta_scraper.dept_retriever import dept_authors, depts_authors
 from sinta_scraper.ipr_retriever import author_ipr
 from sinta_scraper.research_retriever import author_researches
