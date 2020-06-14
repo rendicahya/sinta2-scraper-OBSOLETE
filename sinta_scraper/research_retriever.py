@@ -48,9 +48,9 @@ def parse(soup):
             continue
 
         link = link[0]
-        info1 = row.select('dd.indexed-by-orange')[0].text.strip().split('|')
+        info1 = row.select('dd.indexed-by-orange')[0].text.split('|')
         dd = row.select('dd')
-        info2 = [i.strip().split(':')[1].strip() for i in dd[2].text.strip().split('\r\n')]
+        info2 = [i.split(':')[1].strip() for i in dd[2].text.strip().split('\r\n')]
         members = [member.strip() for member in dd[1].text.split(',') if member.strip()]
 
         result.append({
@@ -65,3 +65,7 @@ def parse(soup):
         })
 
     return result
+
+
+if __name__ == '__main__':
+    print(author_researches('29555', output_format='json', pretty_print=True))
