@@ -61,7 +61,12 @@ def parse(soup):
             'application_year': int(info2[0]),
             'event_year': int(info2[1]),
             'fund': int(re.sub(r'[Rp\.\s\,]', '', info2[2])[:-2]),
-            'field': dd[3].text.strip()
+            'field': dd[3].text.strip(),
+            'sponsor': row.select('td.uk-text-center')[0].text.strip()
         })
 
     return result
+
+
+if __name__ == '__main__':
+    print(author_researches('5977641', output_format='json', pretty_print=True))
