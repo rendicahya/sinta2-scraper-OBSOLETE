@@ -62,7 +62,7 @@ def parse(soup):
             'publisher': info2[0].strip(),
             'date': info2[3].strip(),
             'type': info2[4].strip(),
-            'quartile': int(quartile[1]) if re.search(r'^Q([1-4]){1}$', quartile) else '-',
+            'quartile': int(quartile[1]) if re.search(r'^Q[1-4]{1}$', quartile) else '-',
             'citations': int(citations) if is_integer(citations) else 0
         })
 
