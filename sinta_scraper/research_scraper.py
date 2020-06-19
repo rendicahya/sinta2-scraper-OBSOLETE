@@ -1,5 +1,5 @@
 import re
-import threading
+from concurrent.futures import ThreadPoolExecutor
 
 from bs4 import BeautifulSoup
 from requests import get
@@ -7,23 +7,18 @@ from requests import get
 import utils
 
 
-def author_researches(author_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml'):
+def author_researches(author_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
+                      max_workers=None):
     url = f'http://sinta.ristekbrin.go.id/authors/detail?id={author_id}&view=research'
     html = get(url)
     soup = BeautifulSoup(html.content, 'html.parser')
     page_info = soup.select('.uk-width-large-1-2.table-footer')
     n_page = int(page_info[0].text.strip().split()[3])
-    threads = []
     worker_result = parse(soup)
 
-    for page in range(2, n_page + 1):
-        thread = threading.Thread(target=worker, args=(author_id, page, worker_result))
-
-        thread.start()
-        threads.append(thread)
-
-    for thread in threads:
-        thread.join()
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        for page in range(2, n_page + 1):
+            executor.submit(worker, author_id, page, worker_result)
 
     return utils.format_output(worker_result, output_format, pretty_print, xml_library)
 
@@ -66,7 +61,3 @@ def parse(soup):
         })
 
     return result
-
-
-if __name__ == '__main__':
-    print(author_researches('5977641', output_format='json', pretty_print=True))
