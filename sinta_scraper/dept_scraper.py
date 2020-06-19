@@ -1,5 +1,5 @@
 import re
-import threading
+from concurrent.futures import ThreadPoolExecutor
 
 from bs4 import BeautifulSoup
 from requests import get
@@ -7,23 +7,18 @@ from requests import get
 import utils
 
 
-def dept_authors(dept_id, affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml'):
+def dept_authors(dept_id, affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
+                 max_workers=None):
     url = f'http://sinta.ristekbrin.go.id/departments/detail?afil={affil_id}&id={dept_id}&view=authors'
     html = get(url)
     soup = BeautifulSoup(html.content, 'html.parser')
     page_info = soup.select('.uk-width-large-1-2.table-footer')
     n_page = int(page_info[0].text.strip().split()[3])
-    threads = []
     worker_result = parse(soup)
 
-    for page in range(2, n_page + 1):
-        thread = threading.Thread(target=dept_authors_worker, args=(dept_id, affil_id, page, worker_result))
-
-        thread.start()
-        threads.append(thread)
-
-    for thread in threads:
-        thread.join()
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        for page in range(2, n_page + 1):
+            executor.submit(dept_authors_worker, dept_id, affil_id, page, worker_result)
 
     return utils.format_output(worker_result, output_format, pretty_print, xml_library)
 
@@ -54,18 +49,13 @@ def parse(soup):
     return result
 
 
-def depts_authors(dept_ids, affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml'):
+def depts_authors(dept_ids, affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
+                  max_workers=None):
     worker_result = []
-    threads = []
 
-    for dept_id in dept_ids:
-        thread = threading.Thread(target=depts_authors_worker, args=(dept_id, affil_id, worker_result))
-
-        thread.start()
-        threads.append(thread)
-
-    for thread in threads:
-        thread.join()
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        for dept_id in dept_ids:
+            executor.submit(depts_authors_worker, dept_id, affil_id, worker_result)
 
     return utils.format_output(worker_result, output_format, pretty_print, xml_library)
 
