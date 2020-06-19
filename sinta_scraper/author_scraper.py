@@ -1,5 +1,5 @@
 import re
-import threading
+from concurrent.futures import ThreadPoolExecutor
 
 from bs4 import BeautifulSoup
 from requests import get
@@ -15,18 +15,12 @@ def author(author_id, output_format='dictionary', pretty_print=None, xml_library
     return utils.format_output(worker_result[0], output_format, pretty_print, xml_library)
 
 
-def authors(author_ids, output_format='dictionary', pretty_print=None, xml_library='dicttoxml'):
-    threads = []
+def authors(author_ids, output_format='dictionary', pretty_print=None, xml_library='dicttoxml', max_workers=None):
     worker_result = []
 
-    for author_id in author_ids:
-        thread = threading.Thread(target=worker, args=(author_id, worker_result))
-
-        thread.start()
-        threads.append(thread)
-
-    for thread in threads:
-        thread.join()
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        for author_id in author_ids:
+            executor.submit(worker, author_id, worker_result)
 
     return utils.format_output(worker_result, output_format, pretty_print, xml_library)
 
