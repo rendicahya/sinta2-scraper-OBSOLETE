@@ -1,6 +1,7 @@
 import json
 from dicttoxml import dicttoxml
 from dict2xml import dict2xml
+from string_utils.validation import is_integer, is_decimal
 
 
 def format_output(obj, output_format, pretty_print, xml_library):
@@ -20,3 +21,7 @@ def format_output(obj, output_format, pretty_print, xml_library):
         output = obj
 
     return output
+
+
+def cast(input: str):
+    return int(input) if is_integer(input) else float(input) if is_decimal(input) else input

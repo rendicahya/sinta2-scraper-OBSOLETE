@@ -13,7 +13,7 @@ def author_scholar_docs(author_id, output_format='dictionary', pretty_print=None
     html = get(url)
     soup = BeautifulSoup(html.content, 'html.parser')
     page_info = soup.select('.uk-width-large-1-2.table-footer')
-    n_page = int(page_info[0].text.strip().split()[3])
+    n_page = utils.cast(page_info[0].text.strip().split()[3])
     worker_result = parse(soup)
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
@@ -50,8 +50,8 @@ def parse(soup):
             'title': link.text,
             'url': link['href'],
             'publisher': info[0].strip(),
-            'year': int(info[3].strip()),
-            'citations': int(citations) if is_integer(citations) else 0
+            'year': utils.cast(info[3].strip()),
+            'citations': utils.cast(citations) if is_integer(citations) else 0
         })
 
     return result

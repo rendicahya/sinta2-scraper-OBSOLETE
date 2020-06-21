@@ -14,7 +14,7 @@ def author_scopus_docs(author_id, output_format='dictionary', pretty_print=None,
     html = get(url)
     soup = BeautifulSoup(html.content, 'html.parser')
     page_info = soup.select('.uk-width-large-1-2.table-footer')
-    n_page = int(page_info[0].text.strip().split()[3])
+    n_page = utils.cast(page_info[0].text.strip().split()[3])
     worker_result = parse(soup)
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
@@ -55,12 +55,8 @@ def parse(soup):
             'publisher': info2[0].strip(),
             'date': info2[3].strip(),
             'type': info2[4].strip(),
-            'quartile': int(quartile[1]) if re.search(r'^Q[1-4]{1}$', quartile) else '-',
-            'citations': int(citations) if is_integer(citations) else 0
+            'quartile': utils.cast(quartile[1]) if re.search(r'^Q[1-4]{1}$', quartile) else '-',
+            'citations': utils.cast(citations) if is_integer(citations) else 0
         })
 
     return result
-
-
-if __name__ == '__main__':
-    print(author_scopus_docs('6082456'))

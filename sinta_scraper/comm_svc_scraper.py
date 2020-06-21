@@ -13,7 +13,7 @@ def author_comm_services(author_id, output_format='dictionary', pretty_print=Non
     html = get(url)
     soup = BeautifulSoup(html.content, 'html.parser')
     page_info = soup.select('.uk-width-large-1-2.table-footer')
-    n_page = int(page_info[0].text.strip().split()[3])
+    n_page = utils.cast(page_info[0].text.strip().split()[3])
     worker_result = parse(soup)
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
@@ -53,9 +53,9 @@ def parse(soup):
             'scheme': info1[0].split(':')[1].strip(),
             'source': info1[1].split(':')[1].strip(),
             'members': members,
-            'application_year': int(info2[0]),
-            'event_year': int(info2[1]),
-            'fund': int(re.sub(r'[Rp\.\s\,]', '', info2[2])[:-2]),
+            'application_year': utils.cast(info2[0]),
+            'event_year': utils.cast(info2[1]),
+            'fund': utils.cast(re.sub(r'[Rp\.\s\,]', '', info2[2])[:-2]),
             'field': dd[3].text.strip(),
             'sponsor': row.select('td.uk-text-center')[0].text.strip()
         })
