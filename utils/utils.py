@@ -23,5 +23,14 @@ def format_output(obj, output_format, pretty_print, xml_library):
     return output
 
 
-def cast(input: str):
-    return int(input) if is_integer(input) else float(input) if is_decimal(input) else input
+def cast(string: str):
+    string = string.strip()
+
+    if is_integer(string):
+        return int(string)
+    elif is_decimal(string):
+        return float(string)
+    elif string == '-':
+        return None
+    else:
+        return string
