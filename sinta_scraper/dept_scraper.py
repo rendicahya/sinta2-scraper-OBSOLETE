@@ -14,7 +14,7 @@ def dept_authors(dept_id, affil_id, output_format='dictionary', pretty_print=Non
     soup = BeautifulSoup(html.content, 'html.parser')
     page_info = soup.select('.uk-width-large-1-2.table-footer')
     n_page = utils.cast(page_info[0].text.strip().split()[3])
-    worker_result = parse(soup)
+    worker_result = author_parser(soup)
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         for page in range(2, n_page + 1):
@@ -27,12 +27,12 @@ def dept_authors_worker(dept_id, affil_id, page, worker_result):
     url = f'http://sinta.ristekbrin.go.id/departments/detail?page={page}&afil={affil_id}&id={dept_id}&view=authors&sort=year2'
     html = get(url)
     soup = BeautifulSoup(html.content, 'html.parser')
-    data = parse(soup)
+    data = author_parser(soup)
 
     worker_result.extend(data)
 
 
-def parse(soup):
+def author_parser(soup):
     links = soup.select('.uk-description-list-line .text-blue')
     result = []
 
