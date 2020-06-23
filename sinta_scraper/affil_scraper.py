@@ -1,3 +1,4 @@
+import re
 from concurrent.futures import ThreadPoolExecutor
 
 from bs4 import BeautifulSoup
@@ -9,7 +10,7 @@ import utils
 def affil(affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml'):
     worker_result = []
 
-    worker(affil_id, worker_result)
+    affil_worker(affil_id, worker_result)
 
     return utils.format_output(worker_result[0], output_format, pretty_print, xml_library)
 
@@ -19,12 +20,12 @@ def affils(affil_ids, output_format='dictionary', pretty_print=None, xml_library
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         for affil_id in affil_ids:
-            executor.submit(worker, affil_id, worker_result)
+            executor.submit(affil_worker, affil_id, worker_result)
 
     return utils.format_output(worker_result, output_format, pretty_print, xml_library)
 
 
-def worker(affil_id, worker_result):
+def affil_worker(affil_id, worker_result):
     url = f'http://sinta.ristekbrin.go.id/affiliations/detail?id={affil_id}&view=overview'
     html = get(url)
     soup = BeautifulSoup(html.content, 'html.parser')
@@ -55,5 +56,46 @@ def worker(affil_id, worker_result):
     worker_result.append(result_data)
 
 
-if __name__ == '__main__':
-    print(affil('404', output_format='json', pretty_print=True))
+def affil_authors(affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
+                  max_workers=None):
+    url = f'http://sinta.ristekbrin.go.id/affiliations/detail?id={affil_id}&view=authors'
+    html = get(url)
+    soup = BeautifulSoup(html.content, 'html.parser')
+    page_info = soup.select('.uk-width-large-1-2.table-footer')
+    n_page = utils.cast(page_info[0].text.strip().split()[3])
+    n_page = 1
+    worker_result = author_parser(soup)
+
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        for page in range(2, n_page + 1):
+            executor.submit(affil_authors_worker, affil_id, page, worker_result)
+
+    return utils.format_output(worker_result, output_format, pretty_print, xml_library)
+
+
+def affil_authors_worker(affil_id, page, worker_result):
+    url = f'http://sinta.ristekbrin.go.id/affiliations/detail?page={page}&view=authors&id={affil_id}&sort=year2'
+    html = get(url)
+    soup = BeautifulSoup(html.content, 'html.parser')
+    data = author_parser(soup)
+
+    worker_result.extend(data)
+
+
+def author_parser(soup):
+    rows = soup.select('.uk-description-list-line')
+    result = []
+
+    for row in rows:
+        link = row.select('.text-blue')[0]
+        author_id = re.search(r'id=(\d+)', link['href'].strip()).group(1)
+        author_name = link.text.strip()
+        nidn = row.select('dd')[1].text.split()[-1]
+
+        result.append({
+            'id': author_id,
+            'name': author_name.title(),
+            'nidn': nidn
+        })
+
+    return result
