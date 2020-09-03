@@ -8,7 +8,7 @@ Retrieves information from Sinta (http://sinta.ristekbrin.go.id) via scraping.
 Dependencies: `bs4`, `requests`, `dicttoxml`, and `dict2xml`. These will be automatically installed by pip with the above command.
 
 ## Importing
-`import sinta-scraper as sinta`
+`import sinta_scraper as sinta`
 
 ## Available Functions
 - ### `author()`
@@ -23,37 +23,76 @@ print(author['name'])
 
 The output format is the Python dictionary. The structure is given in the following sample output.
 ```
-{'id': '5975467',
- 'name': 'Agus Zainal Arifin',
- 'url': 'http://sinta.ristekbrin.go.id/authors/detail?id=5975467&view=overview',
- 'affiliation': {'id': '417',
-                 'name': 'Institut Teknologi Sepuluh Nopember',
-                 'url': 'http://sinta.ristekbrin.go.id/affiliations/detail/?id=417&view=overview'},
- 'areas': ['computer vision',
-           'image processing',
-           'information retrieval',
-           'medical imaging',
-           'machine learning'],
- 'score': {'overall': 36.9,
-           '3_years': 7.26,
-           'overall_v2': 3304.0,
-           '3_years_v2': 1284.5},
- 'rank': {'national': 614,
-          '3_years_national': 472,
-          'affiliation': 26,
-          '3_years_affiliation': 21},
- 'scopus': {'documents': '50',
-            'citations': '341',
-            'h-index': '8',
-            'i10-index': '6',
-            'g-index': '14'},
- 'scholar': {'documents': '220',
-             'citations': '1067',
-             'h-index': '13',
-             'i10-index': '23',
-             'g-index': '25'},
- 'books': 0,
- 'ipr': 2}
+{
+    'id': '5975467',
+    'name': 'AGUS ZAINAL ARIFIN',
+    'url': 'http://sinta.ristekbrin.go.id/authors/detail?id=5975467&view=overview',
+    'affiliation': {
+        'id': '417',
+        'name': 'Institut Teknologi Sepuluh Nopember',
+        'url': 'http://sinta.ristekbrin.go.id/affiliations/detail/?id=417&view=overview'
+    },
+    'department': 'Teknik Informatika',
+    'areas': [
+        'computer vision',
+        'image processing',
+        'information retrieval',
+        'medical imaging',
+        'machine learning'
+    ],
+    'score': {
+        'overall': 38.24,
+        '3_years': 8.36,
+        'overall_v2': 3485.0,
+        '3_years_v2': 1345.0
+    },
+    'rank': {
+        'national': 596,
+        '3_years_national': 509,
+        'affiliation': 28,
+        '3_years_affiliation': 22
+    },
+    'scopus': {
+        'documents': 52,
+        'citations': 355,
+        'h-index': 8,
+        'i10-index': 6,
+        'g-index': 14,
+        'articles': 28,
+        'conferences': 24,
+        'others': 0,
+        'Q1': 5,
+        'Q2': 11,
+        'Q3': 9,
+        'Q4': 2,
+        'undefined': 25
+    },
+    'scholar': {
+        'documents': 232,
+        'citations': 1087,
+        'h-index': 13,
+        'i10-index': 25,
+        'g-index': 25
+    },
+    'wos': {
+        'documents': 1,
+        'citations': null,
+        'h-index': null,
+        'i10-index': null,
+        'g-index': null
+    },
+    'sinta': {
+        'S0': 1,
+        'S1': 3,
+        'S2': 1,
+        'S3': 2,
+        'S4': 0,
+        'S5': 0,
+        'uncategorized': 225
+    },
+    'books': 0,
+    'ipr': 2
+}
 ```
 
 - ### `authors()`
@@ -63,7 +102,7 @@ author_ids = ['5975467', '6005015', '29555']
 authors = sinta.authors(author_ids)
 
 print(authors[1]['name'])
-# Output: Mauridhi Hery Purnomo
+# Output: MAURIDHI HERY PURNOMO
 ```
 
 The output is a list of dictionaries with the same structure given by the `author()` function.
@@ -75,8 +114,19 @@ dept_id = '55001'
 affil_id = '417'
 authors = sinta.dept_authors(dept_id, affil_id)
 
-print(authors[:3)
+print(authors[:3])
 # Output: [{'id': '29555', 'name': 'Riyanarto Sarno'}, {'id': '5975467', 'name': 'Agus Zainal Arifin'}, {'id': '6023328', 'name': 'Nanik Suciati'}]
+```
+
+### - `depts_authors()`
+Does the same thing as `dept_authors()` except that you can specify a list of department ID's as argument. For example:
+```
+dept_ids = ['55001', '20201', '24201']
+affil_id = '417'
+authors = sinta.depts_authors(dept_ids, affil_id)
+
+print(authors[:-3])
+# Output: [{'id': '6674726', 'name': 'Cahayahati'}, {'id': '6690103', 'name': 'Ari Santoso'}, {'id': '6199111', 'name': 'Lucky Putri Rahayu'}]
 ```
 
 ## Other Output Formats
