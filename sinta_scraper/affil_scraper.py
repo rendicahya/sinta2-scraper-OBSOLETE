@@ -63,7 +63,6 @@ def affil_authors(affil_id, output_format='dictionary', pretty_print=None, xml_l
     soup = BeautifulSoup(html.content, 'html.parser')
     page_info = soup.select('.uk-width-large-1-2.table-footer')
     n_page = utils.cast(page_info[0].text.strip().split()[3])
-    n_page = 1
     worker_result = author_parser(soup)
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
