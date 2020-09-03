@@ -355,9 +355,9 @@ print(wos[:2])
 Retrieves an author's community service items. For example:
 ```
 author_id = '5996278'
-comm = sinta.author_comm_services(author_id)
+comm_svc = sinta.author_comm_services(author_id)
 
-print(comm)
+print(comm_svc)
 
 # Output:
 [
@@ -428,12 +428,7 @@ If you want the XML output to be pretty-printed, you need to choose `dict2xml` i
 
 ### Todo
 - Other output formats: CSV.
-- `affil(affil_id)` function.
 - `find_affil(keyword)` function.
 - `affil_depts(affil_id)` function.
-- `affil_authors(affil_id)` function.
 - `dept(dept_id)` function.
 - `find_dept(keyword)` function.
-- `author_scopus_docs(author_id)` function.
-- `author_wos_docs(author_id)` function.
-- `author_books(author_id)` function.
