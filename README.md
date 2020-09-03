@@ -110,7 +110,7 @@ print(authors[1]['name'])
 
 The output is a list of dictionaries with the same structure given by the `author()` function.
 
-### - `dept_authors()`
+- ### `dept_authors()`
 Retrieves a list of authors associated with a department. Department ID and affiliation ID must be specified. The output structure is different from that given by the previous function. This function retrieves only the ID's and names of each author. For example:
 ```
 dept_id = '55001'
@@ -121,7 +121,7 @@ print(authors[:3])
 # Output: [{'id': '29555', 'name': 'Riyanarto Sarno'}, {'id': '5975467', 'name': 'Agus Zainal Arifin'}, {'id': '6023328', 'name': 'Nanik Suciati'}]
 ```
 
-### - `depts_authors()`
+- ### `depts_authors()`
 Does the same thing as `dept_authors()` except that you can specify a list of department ID's as argument. For example:
 ```
 dept_ids = ['55001', '20201', '24201']
@@ -130,6 +130,47 @@ authors = sinta.depts_authors(dept_ids, affil_id)
 
 print(authors[:-3])
 # Output: [{'id': '6674726', 'name': 'Cahayahati'}, {'id': '6690103', 'name': 'Ari Santoso'}, {'id': '6199111', 'name': 'Lucky Putri Rahayu'}]
+```
+
+- ### `affil()`
+Retrieves information about an affiliation. For example:
+
+```
+affil_id = '417'
+affil = sinta.affil(affil_id)
+
+print(affil)
+
+# Output:
+{
+    'name': 'Institut Teknologi Sepuluh Nopember',
+    'url': 'https://its.ac.id',
+    'score': {
+        'overall': 34332,
+        'overall_v2': 514402,
+        '3_years': 6569,
+        '3_years_v2': 202157
+    },
+    'rank': {
+        'national': 7,
+        '3_years_national': 10
+    },
+    'journals': 18,
+    'verified_authors': 1084,
+    'lecturers': 961
+}
+```
+
+- ### `affils()`
+Retrieves information about several affiliations. For example:
+```
+affil_ids = ['417', '404']
+affils = sinta.affils(affil_ids)
+
+print(affils)
+
+# Output:
+
 ```
 
 ## Other Output Formats
