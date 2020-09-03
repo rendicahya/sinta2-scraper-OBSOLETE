@@ -351,6 +351,54 @@ print(wos[:2])
 ]
 ```
 
+- ### `author_comm_services()`
+Retrieves an author's community service items. For example:
+```
+author_id = '5996278'
+comm = sinta.author_comm_services(author_id)
+
+print(comm)
+
+# Output:
+[
+    {
+        'title': 'IbM Pembelajaran Elektronik Untuk SMK',
+        'scheme': 'Pengabdian Kepada Masyarakat Kompetitif Nasional ( PKM )',
+        'source': 'Simlitabmas',
+        'members': [
+            'Candra Dewi',
+            'Adharul Muttaqin',
+            'Achmad Basuki'
+        ],
+        'application_year': 2015,
+        'event_year': 2016,
+        'fund': 50000000,
+        'field': '',
+        'sponsor': 'Ristekdikti'
+    }
+]
+```
+
+- ### `author_ipr()`
+Retrieves an author's intellectual property right (IPR) items. For example:
+```
+author_id = '5996278'
+ipr = sinta.author_ipr(author_id)
+
+print(ipr)
+
+# Output:
+[
+    {
+        'id': 'EC00202016549',
+        'title': 'Panduan Pembelajaran Daring Saat Kondisi Darurat COVID-19',
+        'category': 'paten',
+        'year': '2020',
+        'holder': 'Universitas Brawijaya'
+    }
+]
+```
+
 ## Other Output Formats
 Other formats can be used by specifying the `output_format` argument:
 ```
