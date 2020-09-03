@@ -2,6 +2,9 @@
 
 Retrieves information from Sinta (http://sinta.ristekbrin.go.id) via scraping.
 
+## Code Sample
+Code sample for all functions is available as a Google Colab Notebook: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rendicahya/sinta-scraper/blob/master/sinta-scraper-sample.ipynb)
+
 ## Installation
 `pip install sinta-scraper`
 
@@ -155,9 +158,6 @@ author = sinta.author(id, output_format='xml', xml_library='dict2xml')
 ```
 
 If you want the XML output to be pretty-printed, you need to choose `dict2xml` instead of `xmltodict` since the latter does not produce pretty-printed XML output.
-
-## Code Sample
-Code sample for all functions is available as a Google Colab Notebook: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rendicahya/sinta-scraper/blob/master/sinta-scraper-sample.ipynb)
 
 ### Todo
 - Other output formats: CSV.
