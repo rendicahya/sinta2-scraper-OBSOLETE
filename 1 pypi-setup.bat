@@ -1,2 +1,2 @@
-@python -m build
+@py -m build
 @pause

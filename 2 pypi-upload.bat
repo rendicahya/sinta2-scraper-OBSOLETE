@@ -1,2 +1,2 @@
-@python -m twine upload --verbose --skip-existing dist/*
+@py -m twine upload --verbose --skip-existing dist/*
 @pause
