@@ -1,6 +1,6 @@
 # Sinta Scraper
 
-Retrieves information from Sinta (http://sinta.ristekbrin.go.id) via scraping.
+Retrieves information from Sinta (https://sinta.kemdikbud.go.id) via scraping.
 
 ## Code Sample
 Code sample for all functions is available as a Google Colab notebook: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rendicahya/sinta-scraper/blob/master/sinta-scraper-sample.ipynb)
@@ -8,7 +8,7 @@ Code sample for all functions is available as a Google Colab notebook: [![Open I
 ## Installation
 `pip install sinta-scraper`
 
-Dependencies: `bs4`, `requests`, `dicttoxml`, and `dict2xml`.
+Dependencies: `bs4`, `requests`, `dicttoxml`, `dict2xml`, and `yaml-helper`.
 
 ## Importing
 `import sinta_scraper as sinta`
