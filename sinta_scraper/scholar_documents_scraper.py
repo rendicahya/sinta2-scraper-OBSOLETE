@@ -5,7 +5,7 @@ from requests import get
 from string_utils.validation import is_integer
 
 import utils
-from config import get_config
+from utils.config import get_config
 
 
 def author_scholar_docs(author_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',

@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 from requests import get
 
 import utils
-from config import get_config
+from utils.config import get_config
 
 
 def author_comm_services(author_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
