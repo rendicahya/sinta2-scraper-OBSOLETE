@@ -6,11 +6,13 @@ from requests import get
 from string_utils.validation import is_integer
 
 import utils
+from config import get_config
 
 
 def author_scopus_docs(author_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
                        max_workers=None):
-    url = f'http://sinta.ristekbrin.go.id/authors/detail?id={author_id}&view=documentsscopus'
+    domain = get_config()['domain']
+    url = f'{domain}/authors/detail?id={author_id}&view=documentsscopus'
     html = get(url)
     soup = BeautifulSoup(html.content, 'html.parser')
     page_info = soup.select('.uk-width-large-1-2.table-footer')
@@ -25,7 +27,8 @@ def author_scopus_docs(author_id, output_format='dictionary', pretty_print=None,
 
 
 def worker(author_id, page, worker_result):
-    url = f'http://sinta.ristekbrin.go.id/authors/detail?page={page}&id={author_id}&view=documentsscopus'
+    domain = get_config()['domain']
+    url = f'{domain}/authors/detail?page={page}&id={author_id}&view=documentsscopus'
     html = get(url)
     soup = BeautifulSoup(html.content, 'html.parser')
     data = parse(soup)

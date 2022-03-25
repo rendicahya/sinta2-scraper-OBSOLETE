@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 from requests import get
 
 import utils
+from config import get_config
 
 
 def author(author_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml'):
@@ -26,7 +27,9 @@ def authors(author_ids, output_format='dictionary', pretty_print=None, xml_libra
 
 
 def worker(author_id, worker_result):
-    url = f'http://sinta.ristekbrin.go.id/authors/detail?id={author_id}&view=overview'
+    domain = get_config()['domain']
+    url = f'{domain}/authors/detail?id={author_id}&view=overview'
+    print(url)
     html = get(url)
     soup = BeautifulSoup(html.content, 'html.parser')
 

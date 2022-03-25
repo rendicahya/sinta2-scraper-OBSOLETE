@@ -5,11 +5,13 @@ from bs4 import BeautifulSoup
 from requests import get
 
 import utils
+from config import get_config
 
 
 def dept_authors(dept_id, affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
                  max_workers=None):
-    url = f'http://sinta.ristekbrin.go.id/departments/detail?afil={affil_id}&id={dept_id}&view=authors'
+    domain = get_config()['domain']
+    url = f'{domain}/departments/detail?afil={affil_id}&id={dept_id}&view=authors'
     html = get(url)
     soup = BeautifulSoup(html.content, 'html.parser')
     page_info = soup.select('.uk-width-large-1-2.table-footer')
@@ -24,7 +26,8 @@ def dept_authors(dept_id, affil_id, output_format='dictionary', pretty_print=Non
 
 
 def dept_authors_worker(dept_id, affil_id, page, worker_result):
-    url = f'http://sinta.ristekbrin.go.id/departments/detail?page={page}&afil={affil_id}&id={dept_id}&view=authors&sort=year2'
+    domain = get_config()['domain']
+    url = f'{domain}/departments/detail?page={page}&afil={affil_id}&id={dept_id}&view=authors&sort=year2'
     html = get(url)
     soup = BeautifulSoup(html.content, 'html.parser')
     data = author_parser(soup)

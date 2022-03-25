@@ -5,6 +5,7 @@ from bs4 import BeautifulSoup
 from requests import get
 
 import utils
+from config import get_config
 
 
 def affil(affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml'):
@@ -26,7 +27,8 @@ def affils(affil_ids, output_format='dictionary', pretty_print=None, xml_library
 
 
 def affil_worker(affil_id, worker_result):
-    url = f'http://sinta.ristekbrin.go.id/affiliations/detail?id={affil_id}&view=overview'
+    domain = get_config()['domain']
+    url = f'{domain}/affiliations/detail?id={affil_id}&view=overview'
     html = get(url)
     soup = BeautifulSoup(html.content, 'html.parser')
 
@@ -58,7 +60,8 @@ def affil_worker(affil_id, worker_result):
 
 def affil_authors(affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
                   max_workers=None):
-    url = f'http://sinta.ristekbrin.go.id/affiliations/detail?id={affil_id}&view=authors'
+    domain = get_config()['domain']
+    url = f'{domain}/affiliations/detail?id={affil_id}&view=authors'
     html = get(url)
     soup = BeautifulSoup(html.content, 'html.parser')
     page_info = soup.select('.uk-width-large-1-2.table-footer')
@@ -73,7 +76,8 @@ def affil_authors(affil_id, output_format='dictionary', pretty_print=None, xml_l
 
 
 def affil_authors_worker(affil_id, page, worker_result):
-    url = f'http://sinta.ristekbrin.go.id/affiliations/detail?page={page}&view=authors&id={affil_id}&sort=year2'
+    domain = get_config()['domain']
+    url = f'{domain}/affiliations/detail?page={page}&view=authors&id={affil_id}&sort=year2'
     html = get(url)
     soup = BeautifulSoup(html.content, 'html.parser')
     data = author_parser(soup)
