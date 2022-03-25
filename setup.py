@@ -1,18 +1,14 @@
 import setuptools
 
-from config import get_config
-
 with open('README.md', 'r') as fh:
     long_description = fh.read()
 
-domain = get_config()['domain']
-
 setuptools.setup(
     name='sinta-scraper',
-    version='0.14.0',
+    version='0.14.3',
     author='Randy Cahya Wihandika',
     author_email='rendicahya@gmail.com',
-    description=f'Retrieves information from Sinta ({domain}) via scraping.',
+    description='Retrieves information from Sinta (https://sinta.kemdikbud.go.id) via scraping.',
     long_description=long_description,
     long_description_content_type='text/markdown',
     url='https://github.com/rendicahya/sinta-scraper',
