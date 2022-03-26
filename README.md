@@ -497,6 +497,7 @@ For XML output, there are two library options which can be specified in the `xml
 - `dicttoxml` (default)
 - `dict2xml`
 
+Please note that the output is not wrapped in a root element.
 For example:
 ```
 author = sinta.author(id, output_format='xml', xml_library='dict2xml')
@@ -571,7 +572,7 @@ Output:
 </wos>
 ```
 
-If you want the XML output to be pretty-printed, you need to choose `dict2xml` instead of `xmltodict` since the latter does not produce pretty-printed XML output:
+If you want the XML output to be pretty-printed, you need to choose `dict2xml` instead of `xmltodict` since the latter does not produce pretty-printed XML output. By pretty-printing, the output is wrapped in a root element. For example:
 ```
 author_id = '5975467'
 author = sinta.author(author_id, output_format='xml', xml_library='dict2xml', pretty_print=True)
