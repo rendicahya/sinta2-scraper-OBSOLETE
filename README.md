@@ -19,9 +19,6 @@ Retrieves a single author's information by Sinta ID. For example:
 ```
 author_id = '5975467'
 author = sinta.author(author_id)
-
-print(author['name'])
-# Output: Agus Zainal Arifin
 ```
 
 The output format is the Python dictionary. The structure is given in the following sample output.
@@ -103,9 +100,6 @@ Retrieves several author's information by Sinta ID. For example:
 ```
 author_ids = ['5975467', '6005015', '29555']
 authors = sinta.authors(author_ids)
-
-print(authors[1]['name'])
-# Output: MAURIDHI HERY PURNOMO
 ```
 
 The output is a list of dictionaries with the same structure given by the `author()` function.
