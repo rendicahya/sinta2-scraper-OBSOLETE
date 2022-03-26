@@ -8,7 +8,7 @@ Code sample for all functions is available as a Google Colab notebook: [![Open I
 ## Installation
 `pip install sinta-scraper`
 
-Dependencies: `bs4`, `requests`, `dicttoxml`, `dict2xml`, and `yaml-helper`.
+Dependencies: `bs4`, `requests`, `dicttoxml`, and `dict2xml`.
 
 ## Importing
 `import sinta_scraper as sinta`
