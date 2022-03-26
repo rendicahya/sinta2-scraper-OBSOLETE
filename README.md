@@ -1,3 +1,5 @@
+![](https://sinta.kemdikbud.go.id/assets/img/sinta_logo.png)
+
 # Sinta Scraper
 
 Retrieves information from Sinta (https://sinta.kemdikbud.go.id) via scraping.
