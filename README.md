@@ -19,79 +19,81 @@ Retrieves a single author's information by Sinta ID. For example:
 ```
 author_id = '5975467'
 author = sinta.author(author_id)
+
+print(author)
 ```
 
 The output format is the Python dictionary. The structure is given in the following sample output.
 ```
 {
-    'id': '5975467',
-    'name': 'AGUS ZAINAL ARIFIN',
-    'url': 'http://sinta.ristekbrin.go.id/authors/detail?id=5975467&view=overview',
-    'affiliation': {
-        'id': '417',
-        'name': 'Institut Teknologi Sepuluh Nopember',
-        'url': 'http://sinta.ristekbrin.go.id/affiliations/detail/?id=417&view=overview'
+    "id": "5975467",
+    "name": "AGUS ZAINAL ARIFIN",
+    "url": "https://sinta.kemdikbud.go.id/authors/detail?id=5975467&view=overview",
+    "affiliation": {
+        "id": "417",
+        "name": "Institut Teknologi Sepuluh Nopember",
+        "url": "http://sinta.ristekbrin.go.id/affiliations/detail/?id=417&view=overview"
     },
-    'department': 'Teknik Informatika',
-    'areas': [
-        'computer vision',
-        'image processing',
-        'information retrieval',
-        'medical imaging',
-        'machine learning'
+    "department": "Teknik Informatika",
+    "areas": [
+        "computer vision",
+        "image processing",
+        "information retrieval",
+        "medical imaging",
+        "machine learning"
     ],
-    'score': {
-        'overall': 38.24,
-        '3_years': 8.36,
-        'overall_v2': 3485.0,
-        '3_years_v2': 1345.0
+    "score": {
+        "overall": 48.1,
+        "3_years": 3.13,
+        "overall_v2": 4726.0,
+        "3_years_v2": 1377.5
     },
-    'rank': {
-        'national': 596,
-        '3_years_national': 509,
-        'affiliation': 28,
-        '3_years_affiliation': 22
+    "rank": {
+        "national": 723,
+        "3_years_national": 1099,
+        "affiliation": 32,
+        "3_years_affiliation": 30
     },
-    'scopus': {
-        'documents': 52,
-        'citations': 355,
-        'h-index': 8,
-        'i10-index': 6,
-        'g-index': 14,
-        'articles': 28,
-        'conferences': 24,
-        'others': 0,
-        'Q1': 5,
-        'Q2': 11,
-        'Q3': 9,
-        'Q4': 2,
-        'undefined': 25
+    "scopus": {
+        "documents": 69,
+        "citations": 469,
+        "h-index": 10,
+        "i10-index": 10,
+        "g-index": 1,
+        "articles": 39,
+        "conferences": 30,
+        "others": 0,
+        "Q1": 6,
+        "Q2": 12,
+        "Q3": 13,
+        "Q4": 3,
+        "undefined": 35
     },
-    'scholar': {
-        'documents': 232,
-        'citations': 1087,
-        'h-index': 13,
-        'i10-index': 25,
-        'g-index': 25
+    "scholar": {
+        "documents": 294,
+        "citations": 1444,
+        "h-index": 16,
+        "i10-index": 36,
+        "g-index": 31
     },
-    'wos': {
-        'documents': 1,
-        'citations': null,
-        'h-index': null,
-        'i10-index': null,
-        'g-index': null
+    "wos": {
+        "documents": 1,
+        "citations": null,
+        "h-index": null,
+        "i10-index": null,
+        "g-index": null
     },
-    'sinta': {
-        'S0': 1,
-        'S1': 3,
-        'S2': 1,
-        'S3': 2,
-        'S4': 0,
-        'S5': 0,
-        'uncategorized': 225
+    "sinta": {
+        "S0": 1,
+        "S1": 8,
+        "S2": 3,
+        "S3": 3,
+        "S4": 7,
+        "S5": 0,
+        "uncategorized": 272
     },
-    'books': 0,
-    'ipr': 2
+    "books": 0,
+    "ipr": 2
 }
 ```
 
@@ -111,47 +113,97 @@ dept_id = '55001'
 affil_id = '417'
 authors = sinta.dept_authors(dept_id, affil_id)
 
-print(authors[:3])
-# Output: [{'id': '29555', 'name': 'Riyanarto Sarno'}, {'id': '5975467', 'name': 'Agus Zainal Arifin'}, {'id': '6023328', 'name': 'Nanik Suciati'}]
+print(authors)
 ```
-
+Output:
+```
+[
+    {
+        "id": "29555",
+        "name": "Riyanarto Sarno"
+    },
+    {
+        "id": "6023328",
+        "name": "Nanik Suciati"
+    },
+    {
+        "id": "5975467",
+        "name": "Agus Zainal Arifin"
+    },
+    {
+        "id": "5993318",
+        "name": "Handayani Tjandrasa"
+    },
+    {
+        "id": "5993763",
+        "name": "Joko Lianto Buliali"
+    },
+    {
+        "id": "5995823",
+        "name": "Supeno Djanali"
+    }
+]
+```
 - ### `depts_authors()`
 Does the same thing as `dept_authors()` except that you can specify a list of department ID's as argument. For example:
 ```
-dept_ids = ['55001', '20201', '24201']
+dept_ids = ['55001', '20201']
 affil_id = '417'
 authors = sinta.depts_authors(dept_ids, affil_id)
 
-print(authors[:-3])
-# Output: [{'id': '6674726', 'name': 'Cahayahati'}, {'id': '6690103', 'name': 'Ari Santoso'}, {'id': '6199111', 'name': 'Lucky Putri Rahayu'}]
+print(authors[:5])
 ```
-
+Output:
+```
+[
+    {
+        "id": "29555",
+        "name": "Riyanarto Sarno"
+    },
+    {
+        "id": "6023328",
+        "name": "Nanik Suciati"
+    },
+    {
+        "id": "5975467",
+        "name": "Agus Zainal Arifin"
+    },
+    {
+        "id": "5993318",
+        "name": "Handayani Tjandrasa"
+    },
+    {
+        "id": "5993763",
+        "name": "Joko Lianto Buliali"
+    }
+]
+```
 - ### `affil()`
 Retrieves information about an affiliation. For example:
-
 ```
 affil_id = '417'
 affil = sinta.affil(affil_id)
 
 print(affil)
-
-# Output:
+```
+Output:
+```
 {
-    'name': 'Institut Teknologi Sepuluh Nopember',
-    'url': 'https://its.ac.id',
-    'score': {
-        'overall': 34332,
-        'overall_v2': 514402,
-        '3_years': 6569,
-        '3_years_v2': 202157
+    "name": "Institut Teknologi Sepuluh Nopember",
+    "url": "https://its.ac.id",
+    "score": {
+        "overall": 37400,
+        "overall_v2": 540707,
+        "3_years": 5222,
+        "3_years_v2": 182038
     },
-    'rank': {
-        'national': 7,
-        '3_years_national': 10
+    "rank": {
+        "national": 7,
+        "3_years_national": 11
     },
-    'journals': 18,
-    'verified_authors': 1084,
-    'lecturers': 961
+    "journals": 25,
+    "verified_authors": 1115,
+    "lecturers": 961
 }
 ```
 
@@ -162,55 +214,84 @@ affil_ids = ['417', '404']
 affils = sinta.affils(affil_ids)
 
 print(affils)
-
-# Output:
+```
+Output
+```
 [
     {
-        'name': 'Institut Teknologi Sepuluh Nopember',
-        'url': 'https://its.ac.id',
-        'score': {
-            'overall': 34332,
-            'overall_v2': 514402,
-            '3_years': 6569,
-            '3_years_v2': 202157
+        "name": "Institut Teknologi Sepuluh Nopember",
+        "url": "https://its.ac.id",
+        "score": {
+            "overall": 37400,
+            "overall_v2": 540707,
+            "3_years": 5222,
+            "3_years_v2": 182038
         },
-        'rank': {
-            'national': 7,
-            '3_years_national': 10
+        "rank": {
+            "national": 7,
+            "3_years_national": 11
         },
-        'journals': 18,
-        'verified_authors': 1084,
-        'lecturers': 961
+        "journals": 25,
+        "verified_authors": 1115,
+        "lecturers": 961
     },
     {
-        'name': 'Universitas Brawijaya',
-        'url': 'https://ub.ac.id/',
-        'score': {
-            'overall': 43734,
-            'overall_v2': 513660,
-            '3_years': 7443,
-            '3_years_v2': 245747
+        "name": "Universitas Brawijaya",
+        "url": "www.ub.ac.id",
+        "score": {
+            "overall": 53982,
+            "overall_v2": 538192,
+            "3_years": 5946,
+            "3_years_v2": 217740
         },
-        'rank': {
-            'national': 8,
-            '3_years_national': 5
+        "rank": {
+            "national": 9,
+            "3_years_national": 8
         },
-        'journals': 60,
-        'verified_authors': 2245,
-        'lecturers': 2054
+        "journals": 67,
+        "verified_authors": 2318,
+        "lecturers": 2052
     }
 ]
 ```
 
 - ### `affil_authors()`
-Retrieves authors associated with the specified affiliation. For example:
+Retrieves authors associated with the specified affiliation. This function usually takes more time to complete. For example:
 ```
 affil_id = '417'
 authors = sinta.affil_authors(affil_id)
 
-print(authors)
-
-# Output: [{'id': '29555', 'name': 'Riyanarto Sarno', 'nidn': '0003085905'}, {'id': '6005015', 'name': 'Mauridhi Hery Purnomo', 'nidn': '0016095811'}]
+print(authors[:5])
+```
+Output:
+```
+[
+    {
+        "id": "29555",
+        "name": "Riyanarto Sarno",
+        "nidn": "0003085905"
+    },
+    {
+        "id": "6005015",
+        "name": "Mauridhi Hery Purnomo",
+        "nidn": "0016095811"
+    },
+    {
+        "id": "5976088",
+        "name": "Chastine Fatichah",
+        "nidn": "0020127508"
+    },
+    {
+        "id": "29653",
+        "name": "Adhi Yuniarto",
+        "nidn": "0001067304"
+    },
+    {
+        "id": "5998915",
+        "name": "Didik Prasetyoko",
+        "nidn": "0016067108"
+    }
+]
 ```
 
 - ### `author_researches()`
@@ -220,42 +301,43 @@ author_id = '6005015'
 researches = sinta.author_researches(author_id)
 
 print(researches[:2])
-
-# Output:
+```
+Output:
+```
 [
     {
-        'title': 'Monitoring Kestabilan Transient dengan Mempertimbangkan Parameter Sudut Rotor, Frekuensi, dan Tegangan Berbasis Computational Intelligence',
-        'scheme': 'Penelitian Penugasan ( WCR )',
-        'source': 'Simlitabmas',
-        'members': [
-            'Mauridhi Hery Purnomo',
-            'Ardyono Priyadi',
-            'Vita Lystianingrum B P'
+        "title": "Monitoring Kestabilan Transient dengan Mempertimbangkan Parameter Sudut Rotor, Frekuensi, dan Tegangan Berbasis Computational Intelligence",
+        "scheme": "Penelitian Penugasan ( WCR )",
+        "source": "Simlitabmas",
+        "members": [
+            "Mauridhi Hery Purnomo",
+            "Ardyono Priyadi",
+            "Vita Lystianingrum B P"
         ],
-        'application_year': 2020,
-        'event_year': 2021,
-        'fund': 118488700,
-        'field': 'Energi',
-        'sponsor': 'Ristekdikti'
+        "application_year": 2020,
+        "event_year": 2021,
+        "fund": 118488700,
+        "field": "Energi",
+        "sponsor": "Ristekdikti"
     },
     {
-        'title': 'Intelligent Teledermatology System untuk Smart Hospital',
-        'scheme': 'Penelitian Penugasan ( KRU-PT )',
-        'source': 'Simlitabmas',
-        'members': [
-            'I Ketut Eddy Purnama',
-            'Anak Agung Putri Ratna',
-            'Ingrid Nurtanio',
-            'Afif Nurul Hidayati',
-            'Reza Fuad Rachmadi',
-            'Mauridhi Hery Purnomo',
-            'Supeno Mardi Susiki Nugroho'
+        "title": "Intelligent Teledermatology System untuk Smart Hospital",
+        "scheme": "Penelitian Penugasan ( KRU-PT )",
+        "source": "Simlitabmas",
+        "members": [
+            "I Ketut Eddy Purnama",
+            "Anak Agung Putri Ratna",
+            "Ingrid Nurtanio",
+            "Afif Nurul Hidayati",
+            "Reza Fuad Rachmadi",
+            "Mauridhi Hery Purnomo",
+            "Supeno Mardi Susiki Nugroho"
         ],
-        'application_year': 2020,
-        'event_year': 2021,
-        'fund': 436800000,
-        'field': 'Kesehatan',
-        'sponsor': 'Ristekdikti'
+        "application_year": 2020,
+        "event_year": 2021,
+        "fund": 436800000,
+        "field": "Kesehatan",
+        "sponsor": "Ristekdikti"
     }
 ]
 ```
@@ -271,18 +353,18 @@ print(scholar[:2])
 # Output:
 [
     {
-        'title': 'Konsep pengolahan citra digital dan ekstraksi fitur',
-        'url': 'https://scholar.google.com/scholar?oi=bibs&cluster=11975243569176755366&btnI=1&hl=en',
-        'publisher': 'Yogyakarta:  Graha Ilmu; ISBN: 978-979-756-682-1 1 (2010), 280',
-        'year': 2010,
-        'citations': 0
+        "title": "Konsep Pengolahan Citra Digital dan Ekstraksi Fitur",
+        "url": "https://scholar.google.com/scholar?oi=bibs&cluster=11975243569176755366&btnI=1&hl=en",
+        "publisher": "Yogyakarta: Graha Ilmu, 2010",
+        "year": 2010,
+        "citations": 0
     },
     {
-        'title': 'Supervised Neural Networks dan Aplikasinya',
-        'url': 'https://scholar.google.com/scholar?oi=bibs&cluster=4803627219094543302&btnI=1&hl=en',
-        'publisher': 'Yogyakarta:  Graha Ilmu; ISBN: 978-979-756-123-9 1 (2006), 176',
-        'year': 2006,
-        'citations': 0
+        "title": "Supervised Neural Networks dan Aplikasinya",
+        "url": "https://scholar.google.com/scholar?oi=bibs&cluster=4803627219094543302&btnI=1&hl=en",
+        "publisher": "Yogyakarta: Graha Ilmu; ISBN:978-979-756-123-9 1 (2006), 176",
+        "year": 2006,
+        "citations": 0
     }
 ]
 ```
@@ -298,22 +380,22 @@ print(scopus[:2])
 # Output:
 [
     {
-        'title': 'Controlling chaos and voltage collapse using an ANFIS-based composite controller-static var compensa',
-        'url': 'https://www.scopus.com/record/display.uri?eid=2-s2.0-84869223917&origin=resultslist',
-        'publisher': 'International Journal of Electrical Power and Energy Systems',
-        'date': '2013-03-01',
-        'type': 'Journal',
-        'quartile': 1,
-        'citations': 51
+        "title": "Adaptive modified firefly algorithm for optimal coordination of overcurrent relays",
+        "url": "https://www.scopus.com/record/display.uri?eid=2-s2.0-85026658931&origin=resultslist",
+        "publisher": "IET Generation, Transmission and Distribution",
+        "date": "2017-07-13",
+        "type": "Journal",
+        "quartile": 1,
+        "citations": 77
     },
     {
-        'title': 'Adaptive modified firefly algorithm for optimal coordination of overcurrent relays',
-        'url': 'https://www.scopus.com/record/display.uri?eid=2-s2.0-85026658931&origin=resultslist',
-        'publisher': 'IET Generation, Transmission and Distribution',
-        'date': '2017-07-13',
-        'type': 'Journal',
-        'quartile': 1,
-        'citations': 38
+        "title": "Controlling chaos and voltage collapse using an ANFIS-based composite controller-static var compensator in power systems",
+        "url": "https://www.scopus.com/record/display.uri?eid=2-s2.0-84869223917&origin=resultslist",
+        "publisher": "International Journal of Electrical Power and Energy Systems",
+        "date": "2013-03-01",
+        "type": "Journal",
+        "quartile": 1,
+        "citations": 62
     }
 ]
 ```
@@ -329,18 +411,18 @@ print(wos[:2])
 # Output:
 [
     {
-        'title': 'Adaptive B-spline neural network-based vector control for a grid side converter in wind turbine-DFIG systems',
-        'publisher': 'IEEJ TRANSACTIONS ON ELECTRICAL AND ELECTRONIC ENGINEERING',
-        'issn': '1931-4973',
-        'doi': '-',
-        'uid': 'WOS: 000362748500009'
+        "title": "Adaptive B-spline neural network-based vector control for a grid side converter in wind turbine-DFIG systems",
+        "publisher": "IEEJ TRANSACTIONS ON ELECTRICAL AND ELECTRONIC ENGINEERING",
+        "issn": "1931-4973",
+        "doi": "-",
+        "uid": "WOS:000362748500009"
     },
     {
-        'title': 'ARIMA Modeling of Tropical Rain Attenuation on a Short 28-GHz Terrestrial Link',
-        'publisher': 'IEEE ANTENNAS AND WIRELESS PROPAGATION LETTERS',
-        'issn': '1536-1225',
-        'doi': '10.1109/LAWP.2010.2046130',
-        'uid': 'WOS: 000276520900002'
+        "title": "ARIMA Modeling of Tropical Rain Attenuation on a Short 28-GHz Terrestrial Link",
+        "publisher": "IEEE ANTENNAS AND WIRELESS PROPAGATION LETTERS",
+        "issn": "1536-1225",
+        "doi": "10.1109/LAWP.2010.2046130",
+        "uid": "WOS:000276520900002"
     }
 ]
 ```
@@ -352,23 +434,24 @@ author_id = '5996278'
 comm_svc = sinta.author_comm_services(author_id)
 
 print(comm_svc)
-
-# Output:
+```
+Output:
+```
 [
     {
-        'title': 'IbM Pembelajaran Elektronik Untuk SMK',
-        'scheme': 'Pengabdian Kepada Masyarakat Kompetitif Nasional ( PKM )',
-        'source': 'Simlitabmas',
-        'members': [
-            'Candra Dewi',
-            'Adharul Muttaqin',
-            'Achmad Basuki'
+        "title": "IbM Pembelajaran Elektronik Untuk SMK",
+        "scheme": "Pengabdian Kepada Masyarakat Kompetitif Nasional ( PKM )",
+        "source": "Simlitabmas",
+        "members": [
+            "Candra Dewi",
+            "Adharul Muttaqin",
+            "Achmad Basuki"
         ],
-        'application_year': 2015,
-        'event_year': 2016,
-        'fund': 50000000,
-        'field': '',
-        'sponsor': 'Ristekdikti'
+        "application_year": 2015,
+        "event_year": 2016,
+        "fund": 50000000,
+        "field": "",
+        "sponsor": "Ristekdikti"
     }
 ]
 ```
@@ -380,15 +463,16 @@ author_id = '5996278'
 ipr = sinta.author_ipr(author_id)
 
 print(ipr)
-
-# Output:
+```
+Output:
+```
 [
     {
-        'id': 'EC00202016549',
-        'title': 'Panduan Pembelajaran Daring Saat Kondisi Darurat COVID-19',
-        'category': 'paten',
-        'year': '2020',
-        'holder': 'Universitas Brawijaya'
+        "id": "EC00202016549",
+        "title": "Panduan Pembelajaran Daring Saat Kondisi Darurat COVID-19",
+        "category": "paten",
+        "year": "2020",
+        "holder": "Universitas Brawijaya"
     }
 ]
 ```
