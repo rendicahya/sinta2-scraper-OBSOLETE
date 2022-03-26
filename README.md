@@ -500,7 +500,7 @@ For XML output, there are two library options which can be specified in the `xml
 Please note that the output is not wrapped in a root element.
 For example:
 ```
-author = sinta.author(id, output_format='xml', xml_library='dict2xml')
+author = sinta.author(id, **output_format='xml', xml_library='dict2xml'**)
 ```
 Output:
 ```
