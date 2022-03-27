@@ -109,7 +109,7 @@ authors = sinta.authors(author_ids)
 The output is a list of dictionaries with the same structure given by the `author()` function.
 
 - ### `dept_authors()`
-Retrieves a list of authors associated with a department. Department ID and affiliation ID must be specified. The output structure is different from that given by the previous function. This function retrieves only the ID's and names of each author. For example:
+Retrieves a list of authors associated with a department. Department ID and affiliation ID must be specified. The output structure is different from that given by the previous function. This function retrieves only the ID and name of each author. For example:
 ```
 dept_id = '55001'
 affil_id = '417'
@@ -659,3 +659,24 @@ Output:
 - `affil_depts(affil_id)` function.
 - `dept(dept_id)` function.
 - `find_dept(keyword)` function.
+- `author_scholar_journal_docs(author_id)` function.
+- `author_scholar_conference_docs(author_id)` function.
+- `dept_scholar_docs(dept_id)` function.
+- `dept_scopus_docs(dept_id)` function.
+- `dept_scopus_journal_docs(dept_id)` function.
+- `dept_scopus_conference_docs(dept_id)` function.
+- `dept_wos_docs(dept_id)` function.
+- `affil_scholar_docs(dept_id)` function.
+- `affil_scopus_docs(dept_id)` function.
+- `affil_scopus_journal_docs(dept_id)` function.
+- `affil_scopus_conference_docs(dept_id)` function.
+- `affil_wos_docs(dept_id)` function.
+- `author_scholar_citations_count(author_id)` function.
+- `author_scopus_citations_count(author_id)` function.
+- `author_wos_citations_count(author_id)` function.
+- `dept_scholar_citations_count(dept_id)` function.
+- `dept_scopus_citations_count(dept_id)` function.
+- `dept_wos_citations_count(dept_id)` function.
+- `affil_citations_count(author_id)` function.
+- Filter by date (only applicable for Google Scholar and Scopus).
+- Sinta 3.
