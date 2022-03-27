@@ -47,7 +47,7 @@ def parse(soup):
 
         link = link[0]
         info = row.select('dd.indexed-by')[0].text.strip().split('|')
-        citations = row.select('.index-val')[0].text.strip()
+        citations = row.select('.index-val')[1].text.strip()
 
         result.append({
             'title': link.text,
