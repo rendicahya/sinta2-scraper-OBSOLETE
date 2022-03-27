@@ -10,7 +10,7 @@ Code sample for all functions is available as a Google Colab notebook: [![Open I
 ## Installation
 `pip install sinta-scraper`
 
-Dependencies: `bs4`, `requests`, `dicttoxml`, and `dict2xml`.
+Dependencies: `beautifulsoup4`, `requests`, `dicttoxml`, `dict2xml`, and `python-string-utils`.
 
 ## Importing
 `import sinta_scraper as sinta`
