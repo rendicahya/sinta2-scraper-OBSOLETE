@@ -5,19 +5,26 @@
 Retrieves information from Sinta (https://sinta.kemdikbud.go.id) via scraping.
 
 ## Code Sample
-Code sample for all functions is available as a Google Colab notebook: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rendicahya/sinta-scraper/blob/master/sinta-scraper-sample.ipynb)
+
+Code sample for all functions is available as a Google Colab
+notebook: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rendicahya/sinta-scraper/blob/master/sinta-scraper-sample.ipynb)
 
 ## Installation
+
 `pip install sinta-scraper`
 
 Dependencies: `beautifulsoup4`, `requests`, `dicttoxml`, `dict2xml`, and `python-string-utils`.
 
 ## Importing
+
 `import sinta_scraper as sinta`
 
 ## Available Functions
+
 - ### `author()`
+
 Retrieves a single author's information by Sinta ID. For example:
+
 ```
 author_id = '5975467'
 author = sinta.author(author_id)
@@ -26,6 +33,7 @@ print(author)
 ```
 
 The output format is the Python dictionary. The structure is given in the following sample output.
+
 ```
 {
     "id": "5975467",
@@ -100,7 +108,9 @@ The output format is the Python dictionary. The structure is given in the follow
 ```
 
 - ### `authors()`
+
 Retrieves several author's information by Sinta ID. For example:
+
 ```
 author_ids = ['5975467', '6005015', '29555']
 authors = sinta.authors(author_ids)
@@ -109,7 +119,11 @@ authors = sinta.authors(author_ids)
 The output is a list of dictionaries with the same structure given by the `author()` function.
 
 - ### `dept_authors()`
-Retrieves a list of authors associated with a department. Department ID and affiliation ID must be specified. The output structure is different from that given by the previous function. This function retrieves only the ID and name of each author. For example:
+
+Retrieves a list of authors associated with a department. Department ID and affiliation ID must be specified. The output
+structure is different from that given by the previous function. This function retrieves only the ID and name of each
+author. For example:
+
 ```
 dept_id = '55001'
 affil_id = '417'
@@ -117,7 +131,9 @@ authors = sinta.dept_authors(dept_id, affil_id)
 
 print(authors)
 ```
+
 Output:
+
 ```
 [
     {
@@ -146,8 +162,11 @@ Output:
     }
 ]
 ```
+
 - ### `depts_authors()`
+
 Does the same thing as `dept_authors()` except that you can specify a list of department ID's as argument. For example:
+
 ```
 dept_ids = ['55001', '20201']
 affil_id = '417'
@@ -155,7 +174,9 @@ authors = sinta.depts_authors(dept_ids, affil_id)
 
 print(authors[:5])
 ```
+
 Output:
+
 ```
 [
     {
@@ -180,15 +201,20 @@ Output:
     }
 ]
 ```
+
 - ### `affil()`
+
 Retrieves information about an affiliation. For example:
+
 ```
 affil_id = '417'
 affil = sinta.affil(affil_id)
 
 print(affil)
 ```
+
 Output:
+
 ```
 {
     "name": "Institut Teknologi Sepuluh Nopember",
@@ -210,14 +236,18 @@ Output:
 ```
 
 - ### `affils()`
+
 Retrieves information about several affiliations. For example:
+
 ```
 affil_ids = ['417', '404']
 affils = sinta.affils(affil_ids)
 
 print(affils)
 ```
+
 Output
+
 ```
 [
     {
@@ -258,14 +288,19 @@ Output
 ```
 
 - ### `affil_authors()`
-Retrieves authors associated with the specified affiliation. This function usually takes more time to complete. For example:
+
+Retrieves authors associated with the specified affiliation. This function usually takes more time to complete. For
+example:
+
 ```
 affil_id = '417'
 authors = sinta.affil_authors(affil_id)
 
 print(authors[:5])
 ```
+
 Output:
+
 ```
 [
     {
@@ -297,14 +332,18 @@ Output:
 ```
 
 - ### `author_researches()`
+
 Retrieves an author's researches. For example:
+
 ```
 author_id = '6005015'
 researches = sinta.author_researches(author_id)
 
 print(researches[:2])
 ```
+
 Output:
+
 ```
 [
     {
@@ -345,14 +384,18 @@ Output:
 ```
 
 - ### `author_scholar_docs()`
+
 Retrieves an author's Google Scholar items. For example:
+
 ```
 author_id = '6005015'
 scholar_docs = sinta.author_scholar_docs(author_id)
 
 print(scholar_docs[:2])
 ```
+
 Output:
+
 ```
 [
     {
@@ -371,21 +414,27 @@ Output:
     }
 ]
 ```
+
 You can also specify the minimum and maximum year. For example:
+
 ```
 author_id = '6005015'
 scholar = sinta.author_scholar_docs(author_id, min_year=2017, max_year=2020)
 ```
 
 - ### `author_scopus_docs()`
+
 Retrieves an author's Scopus documents. For example:
+
 ```
 author_id = '6005015'
 scopus = sinta.author_scopus_docs(author_id)
 
 print(scopus[:2])
 ```
+
 Output:
+
 ```
 [
     {
@@ -409,29 +458,44 @@ Output:
 ]
 ```
 
+You can also specify the minimum and maximum date. The date must be in "yyyy-mm-dd" format. For example:
+
+```
+author_id = '6005015'
+scopus = sinta.author_scopus_docs(author_id, min_date='2015-01-01', max_date='2019-12-31')
+```
+
 - ### `author_scopus_journal_docs()`
+
 Retrieves an author's Scopus journal documents. For example:
+
 ```
 author_id = '6005015'
 scopus = sinta.author_scopus_journal_docs(author_id)
 ```
 
 - ### `author_scopus_conference_docs()`
+
 Retrieves an author's Scopus conference documents. For example:
+
 ```
 author_id = '6005015'
 scopus = sinta.author_scopus_conference_docs(author_id)
 ```
 
 - ### `author_wos_docs()`
+
 Retrieves an author's Web of Science documents. For example:
+
 ```
 author_id = '6005015'
 wos = sinta.author_wos_docs(author_id)
 
 print(wos[:2])
 ```
+
 Output:
+
 ```
 [
     {
@@ -452,14 +516,18 @@ Output:
 ```
 
 - ### `author_comm_services()`
+
 Retrieves an author's community service items. For example:
+
 ```
 author_id = '5996278'
 comm_svc = sinta.author_comm_services(author_id)
 
 print(comm_svc)
 ```
+
 Output:
+
 ```
 [
     {
@@ -481,14 +549,18 @@ Output:
 ```
 
 - ### `author_ipr()`
+
 Retrieves an author's intellectual property right (IPR) items. For example:
+
 ```
 author_id = '5996278'
 ipr = sinta.author_ipr(author_id)
 
 print(ipr)
 ```
+
 Output:
+
 ```
 [
     {
@@ -502,31 +574,39 @@ Output:
 ```
 
 ## Other Output Formats
+
 Other formats can be used by specifying the `output_format` argument:
+
 ```
 author = sinta.author(id, output_format='json')
 ```
 
 Avalable output formats:
+
 - `'dictionary'` (default)
 - `'json'`
 - `'xml'`
 
 JSON output can be pretty-printed by setting `pretty_print=True`:
+
 ```
 author = sinta.author(id, output_format='json', pretty_print=True)
 ```
 
-For XML output, there are two library options which can be specified in the `xml_library` argument. These libraries give different output formats. The options are:
+For XML output, there are two library options which can be specified in the `xml_library` argument. These libraries give
+different output formats. The options are:
+
 - `dicttoxml` (default)
 - `dict2xml`
 
-Please note that the output is not wrapped in a root element.
-For example:
+Please note that the output is not wrapped in a root element. For example:
+
 ```
 author = sinta.author(id, output_format='xml', xml_library='dict2xml')
 ```
+
 Output:
+
 ```
 <affiliation>
   <id>417</id>
@@ -596,14 +676,18 @@ Output:
 </wos>
 ```
 
-If you want the XML output to be pretty-printed, you need to choose `dict2xml` instead of `xmltodict` since the latter does not produce pretty-printed XML output. By pretty-printing, the output is wrapped in a root element. For example:
+If you want the XML output to be pretty-printed, you need to choose `dict2xml` instead of `xmltodict` since the latter
+does not produce pretty-printed XML output. By pretty-printing, the output is wrapped in a root element. For example:
+
 ```
 author_id = '5975467'
 author = sinta.author(author_id, output_format='xml', xml_library='dict2xml', pretty_print=True)
 
 print(author)
 ```
+
 Output:
+
 ```
 <author>
     <affiliation>
@@ -676,6 +760,7 @@ Output:
 ```
 
 ### Todo
+
 - Other output formats: CSV.
 - `find_affil(keyword)` function.
 - `affil_depts(affil_id)` function.
