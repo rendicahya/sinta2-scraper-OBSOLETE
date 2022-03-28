@@ -372,14 +372,15 @@ print(scholar[:2])
 ```
 
 - ### `author_scopus_docs()`
-Retrieves an author's Scopus items. For example:
+Retrieves an author's Scopus documents. For example:
 ```
 author_id = '6005015'
 scopus = sinta.author_scopus_docs(author_id)
 
 print(scopus[:2])
-
-# Output:
+```
+Output:
+```
 [
     {
         "title": "Adaptive modified firefly algorithm for optimal coordination of overcurrent relays",
@@ -400,6 +401,13 @@ print(scopus[:2])
         "citations": 62
     }
 ]
+```
+
+- ### `author_scopus_journal_docs()`
+Retrieves an author's Scopus journal documents. For example:
+```
+author_id = '6005015'
+scopus = sinta.author_scopus_journal_docs(author_id)
 ```
 
 - ### `author_wos_docs()`
@@ -659,8 +667,8 @@ Output:
 - `affil_depts(affil_id)` function.
 - `dept(dept_id)` function.
 - `find_dept(keyword)` function.
-- `author_scholar_journal_docs(author_id)` function.
-- `author_scholar_conference_docs(author_id)` function.
+- `author_scopus_journal_docs(author_id)` function.
+- `author_scopus_conference_docs(author_id)` function.
 - `dept_scholar_docs(dept_id)` function.
 - `dept_scopus_docs(dept_id)` function.
 - `dept_scopus_journal_docs(dept_id)` function.
@@ -678,5 +686,5 @@ Output:
 - `dept_scopus_citations_count(dept_id)` function.
 - `dept_wos_citations_count(dept_id)` function.
 - `affil_citations_count(author_id)` function.
-- Filter by date (only applicable for Google Scholar and Scopus).
+- Filter by date/year (only applicable for Google Scholar and Scopus).
 - Sinta 3.
