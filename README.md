@@ -780,5 +780,4 @@ Output:
 - `dept_scopus_citations_count(dept_id)` function.
 - `dept_wos_citations_count(dept_id)` function.
 - `affil_citations_count(author_id)` function.
-- Filter by date/year (only applicable for Google Scholar and Scopus).
 - Sinta 3.
