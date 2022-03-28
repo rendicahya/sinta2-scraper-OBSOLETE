@@ -7,10 +7,11 @@ from string_utils.validation import is_integer
 
 import utils
 from utils.config import get_config
+from datetime import datetime
 
 
 def author_scopus_docs(author_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
-                       max_workers=None):
+                       min_date=None, max_date=None, max_workers=None):
     domain = get_config()['domain']
     url = f'{domain}/authors/detail?id={author_id}&view=documentsscopus'
     html = get(url)
@@ -18,25 +19,34 @@ def author_scopus_docs(author_id, output_format='dictionary', pretty_print=None,
     page_info = soup.select('.uk-width-large-1-2.table-footer')
     n_page = utils.cast(page_info[0].text.strip().split()[3])
     worker_result = parse(soup)
+    date_format = '%Y-%m-%d'
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         for page in range(2, n_page + 1):
             executor.submit(worker, author_id, page, worker_result)
 
+    if min_date is not None:
+        min_date_parsed = datetime.strptime(min_date, date_format)
+        worker_result = [doc for doc in worker_result if datetime.strptime(doc['date'], date_format) >= min_date_parsed]
+
+    if max_date is not None:
+        max_date_parsed = datetime.strptime(max_date, date_format)
+        worker_result = [doc for doc in worker_result if datetime.strptime(doc['date'], date_format) <= max_date_parsed]
+
     return utils.format_output(worker_result, output_format, pretty_print, xml_library)
 
 
 def author_scopus_journal_docs(author_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
-                               max_workers=None):
-    docs = author_scopus_docs(author_id, max_workers=max_workers)
+                               min_date=None, max_date=None, max_workers=None):
+    docs = author_scopus_docs(author_id, min_date=min_date, max_date=max_date, max_workers=max_workers)
     journal_docs = [doc for doc in docs if doc['type'] == 'Journal']
 
     return utils.format_output(journal_docs, output_format, pretty_print, xml_library)
 
 
 def author_scopus_conference_docs(author_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
-                                  max_workers=None):
-    docs = author_scopus_docs(author_id, max_workers=max_workers)
+                                  min_date=None, max_date=None, max_workers=None):
+    docs = author_scopus_docs(author_id, min_date=min_date, max_date=max_date, max_workers=max_workers)
     journal_docs = [doc for doc in docs if doc['type'].startswith('Conference')]
 
     return utils.format_output(journal_docs, output_format, pretty_print, xml_library)
