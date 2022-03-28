@@ -34,6 +34,14 @@ def author_scopus_journal_docs(author_id, output_format='dictionary', pretty_pri
     return utils.format_output(journal_docs, output_format, pretty_print, xml_library)
 
 
+def author_scopus_conference_docs(author_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
+                                  max_workers=None):
+    docs = author_scopus_docs(author_id, max_workers=max_workers)
+    journal_docs = [doc for doc in docs if doc['type'].startswith('Conference')]
+
+    return utils.format_output(journal_docs, output_format, pretty_print, xml_library)
+
+
 def worker(author_id, page, worker_result):
     domain = get_config()['domain']
     url = f'{domain}/authors/detail?page={page}&id={author_id}&view=documentsscopus'
@@ -71,10 +79,3 @@ def parse(soup):
         })
 
     return result
-
-
-if __name__ == '__main__':
-    author_id = '6005015'
-    scopus = author_scopus_journal_docs(author_id, output_format='json', pretty_print=True)
-
-    print(scopus)
