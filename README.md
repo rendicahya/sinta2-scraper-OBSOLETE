@@ -410,8 +410,15 @@ author_id = '6005015'
 scopus = sinta.author_scopus_journal_docs(author_id)
 ```
 
+- ### `author_scopus_conference_docs()`
+Retrieves an author's Scopus conference documents. For example:
+```
+author_id = '6005015'
+scopus = sinta.author_scopus_conference_docs(author_id)
+```
+
 - ### `author_wos_docs()`
-Retrieves an author's Web of Science items. For example:
+Retrieves an author's Web of Science documents. For example:
 ```
 author_id = '6005015'
 wos = sinta.author_wos_docs(author_id)
@@ -667,7 +674,6 @@ Output:
 - `affil_depts(affil_id)` function.
 - `dept(dept_id)` function.
 - `find_dept(keyword)` function.
-- `author_scopus_conference_docs(author_id)` function.
 - `dept_scholar_docs(dept_id)` function.
 - `dept_scopus_docs(dept_id)` function.
 - `dept_scopus_journal_docs(dept_id)` function.
