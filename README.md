@@ -348,11 +348,12 @@ Output:
 Retrieves an author's Google Scholar items. For example:
 ```
 author_id = '6005015'
-scholar = sinta.author_scholar_docs(author_id)
+scholar_docs = sinta.author_scholar_docs(author_id)
 
-print(scholar[:2])
-
-# Output:
+print(scholar_docs[:2])
+```
+Output:
+```
 [
     {
         "title": "Konsep Pengolahan Citra Digital dan Ekstraksi Fitur",
@@ -369,6 +370,11 @@ print(scholar[:2])
         "citations": 0
     }
 ]
+```
+You can also specify the minimum and maximum year. For example:
+```
+author_id = '6005015'
+scholar = sinta.author_scholar_docs(author_id, min_year=2017, max_year=2020)
 ```
 
 - ### `author_scopus_docs()`
@@ -424,8 +430,9 @@ author_id = '6005015'
 wos = sinta.author_wos_docs(author_id)
 
 print(wos[:2])
-
-# Output:
+```
+Output:
+```
 [
     {
         "title": "Adaptive B-spline neural network-based vector control for a grid side converter in wind turbine-DFIG systems",
