@@ -684,9 +684,6 @@ Output:
 - `affil_scopus_journal_docs(dept_id)` function.
 - `affil_scopus_conference_docs(dept_id)` function.
 - `affil_wos_docs(dept_id)` function.
-- `author_scholar_citations_count(author_id)` function.
-- `author_scopus_citations_count(author_id)` function.
-- `author_wos_citations_count(author_id)` function.
 - `dept_scholar_citations_count(dept_id)` function.
 - `dept_scopus_citations_count(dept_id)` function.
 - `dept_wos_citations_count(dept_id)` function.
