@@ -667,7 +667,6 @@ Output:
 - `affil_depts(affil_id)` function.
 - `dept(dept_id)` function.
 - `find_dept(keyword)` function.
-- `author_scopus_journal_docs(author_id)` function.
 - `author_scopus_conference_docs(author_id)` function.
 - `dept_scholar_docs(dept_id)` function.
 - `dept_scopus_docs(dept_id)` function.
