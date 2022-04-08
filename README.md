@@ -21,10 +21,10 @@ Dependencies: `beautifulsoup4`, `requests`, `dicttoxml`, `dict2xml`, and `python
 
 ## Available Functions
 
-- [`author()`](https://github.com/rendicahya/sinta-scraper#author)
-- [`authors()`](https://github.com/rendicahya/sinta-scraper#authors)
-- [`dept_authors()`](https://github.com/rendicahya/sinta-scraper#dept_authors)
-- [`depts_authors()`](https://github.com/rendicahya/sinta-scraper#depts_authors)
+- [`author()`](#author)
+- [`authors()`](#authors)
+- [`dept_authors()`](#dept_authors)
+- [`depts_authors()`](#depts_authors)
 
 - ### `author()`
 
