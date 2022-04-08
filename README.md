@@ -21,6 +21,11 @@ Dependencies: `beautifulsoup4`, `requests`, `dicttoxml`, `dict2xml`, and `python
 
 ## Available Functions
 
+- [`author()`](https://github.com/rendicahya/sinta-scraper/edit/master/README.md#author)
+- [`authors()`](https://github.com/rendicahya/sinta-scraper/edit/master/README.md#authors)
+- [`dept_authors()`](https://github.com/rendicahya/sinta-scraper/edit/master/README.md#dept_authors)
+- [`depts_authors()`](https://github.com/rendicahya/sinta-scraper/edit/master/README.md#depts_authors)
+
 - ### `author()`
 
 Retrieves a single author's information by Sinta ID. For example:
