@@ -7,7 +7,8 @@ Retrieves information from Sinta (https://sinta.kemdikbud.go.id) via scraping.
 ## Code Sample
 
 Code sample for all functions is available as a Google Colab
-notebook: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rendicahya/sinta-scraper/blob/master/sinta-scraper-sample.ipynb). Update: Sinta seems to be blocking accesses from Google Colab so you need to run the scripts locally.
+notebook: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rendicahya/sinta-scraper/blob/master/sinta-scraper-sample.ipynb)
+. Update: Sinta seems to be blocking accesses from Google Colab so you need to run the scripts locally.
 
 ## Installation
 
@@ -30,6 +31,7 @@ Dependencies: `beautifulsoup4`, `requests`, `dicttoxml`, `dict2xml`, and `python
 - [`affil_authors()`](#affil_authors)
 - [`author_researches()`](#author_researches)
 - [`author_scholar_docs()`](#author_scholar_docs)
+- [`dept_scholar_docs()`](#dept_scholar_docs)
 - [`author_scopus_docs()`](#author_scopus_docs)
 - [`author_scopus_journal_docs()`](#author_scopus_journal_docs)
 - [`author_scopus_conference_docs()`](#author_scopus_conference_docs)
@@ -438,6 +440,65 @@ You can also specify the minimum and maximum year. For example:
 ```
 author_id = '6005015'
 scholar = sinta.author_scholar_docs(author_id, min_year=2017, max_year=2020)
+```
+
+- ### `dept_scholar_docs()`
+
+Retrieves all Google Scholar documents written by authors in a department. For example:
+
+```
+dept_id = '55001'
+affil_id = '404'
+scholar_docs = sinta.dept_scholar_docs(dept_id, affil_id)
+
+print(scholar_docs[0])
+```
+
+Output:
+
+```
+[
+    {
+        "id": "5977641",
+        "name": "Wayan Firdaus Mahmudy",
+        "docs": [
+            {
+                "title": "Algoritma Evolusi",
+                "url": "https://scholar.google.com/scholar?oi=bibs&cluster=14954803897077959851,3266829010641986629&btnI=1&hl=en",
+                "publisher": "Universitas Brawijaya. Malang",
+                "year": 2013,
+                "citations": 127
+            },
+            {
+                "title": "Penerapan algoritma genetika pada sistem rekomendasi wisata kuliner",
+                "url": "https://scholar.google.com/scholar?oi=bibs&cluster=10533163477803658267&btnI=1&hl=en",
+                "publisher": "Kursor 5 (4), 205-211",
+                "year": 2010,
+                "citations": 63
+            }
+        ]
+    },
+    {
+        "id": "5992836",
+        "name": "Ahmad Afif Supianto",
+        "docs": [
+            {
+                "title": "Rancang Bangun Aplikasi Antrian Poliklinik Berbasis Mobile",
+                "url": "https://scholar.google.com/scholar?oi=bibs&cluster=4109969969855887623&btnI=1&hl=en",
+                "publisher": "J. Teknol. Inf. dan Ilmu Komput 5 (3)",
+                "year": 2018,
+                "citations": 27
+            },
+            {
+                "title": "Perbandingan Teknik Klasifikasi Dalam Data Mining Untuk Bank Direct Marketing",
+                "url": "https://scholar.google.com/scholar?oi=bibs&cluster=10735231418349323236&btnI=1&hl=en",
+                "publisher": "Jurnal Teknologi Informasi dan Ilmu Komputer 5 (5), 567-576",
+                "year": 2018,
+                "citations": 26
+            }
+        ]
+    }
+]
 ```
 
 - ### `author_scopus_docs()`

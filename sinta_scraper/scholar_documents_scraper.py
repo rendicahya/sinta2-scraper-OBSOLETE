@@ -1,8 +1,8 @@
-from concurrent.futures import ThreadPoolExecutor
-
 from bs4 import BeautifulSoup
+from concurrent.futures import ThreadPoolExecutor
 from requests import get
 from string_utils.validation import is_integer
+from dept_scraper import dept_authors
 
 import utils
 from utils.config import get_config
@@ -64,3 +64,29 @@ def parse(soup):
         })
 
     return result
+
+
+def dept_scholar_docs(dept_id, affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
+                      min_year=None, max_year=None, max_workers=None):
+    authors = dept_authors(dept_id, affil_id)
+    output = []
+    i = 0
+
+    for author in authors:
+        author['docs'] = author_scholar_docs(author['id'])
+
+        output.append(author)
+        i += 1
+
+        if i == 2:
+            break
+
+    return utils.format_output(output, output_format, pretty_print, xml_library)
+
+
+if __name__ == '__main__':
+    dept_ids = '55201'
+    affil_id = '404'
+    docs = dept_scholar_docs(dept_ids, affil_id, output_format='json', pretty_print=True)
+
+    print(docs)
