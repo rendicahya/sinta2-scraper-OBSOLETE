@@ -7,7 +7,7 @@ Retrieves information from Sinta (https://sinta.kemdikbud.go.id) via scraping.
 ## Code Sample
 
 Code sample for all functions is available as a Google Colab
-notebook: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rendicahya/sinta-scraper/blob/master/sinta-scraper-sample.ipynb)
+notebook: [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/rendicahya/sinta-scraper/blob/master/sinta-scraper-sample.ipynb). Update: Sinta seems to be blocking accesses from Google Colab so you need to run the scripts locally.
 
 ## Installation
 
