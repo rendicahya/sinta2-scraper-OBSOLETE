@@ -8,20 +8,18 @@ import utils
 from utils.config import get_config
 
 
-def author(author_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml'):
-    worker_result = []
+def author(author_ids, output_format='dictionary', pretty_print=None, xml_library='dicttoxml', max_workers=None):
+    if type(author_ids) is not list and type(author_ids) is not tuple:
+        author_ids = [author_ids]
 
-    worker(author_id, worker_result)
-
-    return utils.format_output(worker_result[0], output_format, pretty_print, xml_library)
-
-
-def authors(author_ids, output_format='dictionary', pretty_print=None, xml_library='dicttoxml', max_workers=None):
     worker_result = []
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         for author_id in author_ids:
             executor.submit(worker, author_id, worker_result)
+
+    if len(worker_result) == 1:
+        worker_result = worker_result[0]
 
     return utils.format_output(worker_result, output_format, pretty_print, xml_library)
 

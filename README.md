@@ -23,7 +23,6 @@ Dependencies: `beautifulsoup4`, `requests`, `dicttoxml`, `dict2xml`, and `python
 ## Available Functions
 
 - [`author()`](#author)
-- [`authors()`](#authors)
 - [`dept_authors()`](#dept_authors)
 - [`depts_authors()`](#depts_authors)
 - [`affil()`](#affil)
@@ -43,10 +42,10 @@ Dependencies: `beautifulsoup4`, `requests`, `dicttoxml`, `dict2xml`, and `python
 
 - ### `author()`
 
-Retrieves a single author's information by Sinta ID. For example:
+Retrieves an author's information by Sinta ID. For example:
 
 ```
-author_id = '5975467'
+author_id = 5975467
 author = sinta.author(author_id)
 
 print(author)
@@ -127,16 +126,16 @@ The output format is the Python dictionary. The structure is given in the follow
 }
 ```
 
-- ### `authors()`
-
-Retrieves several author's information by Sinta ID. For example:
+Multiple authors can also be retrieved at once:
 
 ```
-author_ids = ['5975467', '6005015', '29555']
-authors = sinta.authors(author_ids)
+author_ids = 5975467, 6019743
+author = sinta.author(author_id)
+
+print(author)
 ```
 
-The output is a list of dictionaries with the same structure given by the `author()` function.
+The output is a list of author dictionaries.
 
 - ### `dept_authors()`
 
