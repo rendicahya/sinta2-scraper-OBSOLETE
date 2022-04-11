@@ -37,6 +37,8 @@ Dependencies: `beautifulsoup4`, `requests`, `dicttoxml`, `dict2xml`, and `python
 - [`author_comm_services()`](#author_comm_services)
 - [`author_ipr()`](#author_ipr)
 
+## Function Details
+
 - ### `author()`
 
 Retrieves a single author's information by Sinta ID. For example:
