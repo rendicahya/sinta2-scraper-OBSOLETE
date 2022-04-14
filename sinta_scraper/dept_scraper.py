@@ -8,8 +8,8 @@ import utils
 from utils.config import get_config
 
 
-def dept_authors(dept_id, affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
-                 max_workers=None):
+def retrieve_authors(dept_id, affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
+                     max_workers=None):
     domain = get_config()['domain']
     url = f'{domain}/departments/detail?afil={affil_id}&id={dept_id}&view=authors'
     html = get(url)
@@ -20,12 +20,12 @@ def dept_authors(dept_id, affil_id, output_format='dictionary', pretty_print=Non
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         for page in range(2, n_page + 1):
-            executor.submit(dept_authors_worker, dept_id, affil_id, page, worker_result)
+            executor.submit(retrieve_authors_worker, dept_id, affil_id, page, worker_result)
 
     return utils.format_output(worker_result, output_format, pretty_print, xml_library)
 
 
-def dept_authors_worker(dept_id, affil_id, page, worker_result):
+def retrieve_authors_worker(dept_id, affil_id, page, worker_result):
     domain = get_config()['domain']
     url = f'{domain}/departments/detail?page={page}&afil={affil_id}&id={dept_id}&view=authors&sort=year2'
     html = get(url)
@@ -52,18 +52,29 @@ def author_parser(soup):
     return result
 
 
-def depts_authors(dept_ids, affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
-                  max_workers=None):
+def dept_authors(dept_ids, affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
+                 max_workers=None):
+    if type(dept_ids) is not list and type(dept_ids) is not tuple:
+        dept_ids = [dept_ids]
+
     worker_result = []
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         for dept_id in dept_ids:
-            executor.submit(depts_authors_worker, dept_id, affil_id, worker_result)
+            executor.submit(dept_authors_worker, dept_id, affil_id, worker_result)
 
     return utils.format_output(worker_result, output_format, pretty_print, xml_library)
 
 
-def depts_authors_worker(dept_id, affil_id, worker_result):
-    authors = dept_authors(dept_id, affil_id)
+def dept_authors_worker(dept_id, affil_id, worker_result):
+    authors = retrieve_authors(dept_id, affil_id)
 
     worker_result.extend(authors)
+
+
+if __name__ == '__main__':
+    dept_ids = 55001
+    affil_id = 404
+    authors = dept_authors(dept_ids, affil_id)
+
+    print(authors)

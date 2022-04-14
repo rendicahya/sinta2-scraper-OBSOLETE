@@ -5,7 +5,7 @@ from requests import get
 from string_utils.validation import is_integer
 
 import utils
-from dept_scraper import dept_authors
+from dept_scraper import retrieve_authors
 from utils.config import get_config
 
 
@@ -69,7 +69,7 @@ def parse(soup):
 
 def dept_scholar_docs(dept_id, affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
                       min_year=None, max_year=None, max_workers=None):
-    authors = dept_authors(dept_id, affil_id)
+    authors = retrieve_authors(dept_id, affil_id)
     output = []
 
     for author in authors:
