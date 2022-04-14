@@ -1,10 +1,11 @@
-from bs4 import BeautifulSoup
 from concurrent.futures import ThreadPoolExecutor
+
+from bs4 import BeautifulSoup
 from requests import get
 from string_utils.validation import is_integer
-from dept_scraper import dept_authors
 
 import utils
+from dept_scraper import dept_authors
 from utils.config import get_config
 
 
