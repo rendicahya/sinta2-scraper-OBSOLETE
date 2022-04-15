@@ -6,6 +6,7 @@ from requests import get
 
 import utils
 from utils.config import get_config
+from dept_scraper import dept_authors
 
 
 def author_researches(author_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
@@ -20,12 +21,12 @@ def author_researches(author_id, output_format='dictionary', pretty_print=None, 
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         for page in range(2, n_page + 1):
-            executor.submit(worker, author_id, page, worker_result)
+            executor.submit(author_researches_worker, author_id, page, worker_result)
 
     return utils.format_output(worker_result, output_format, pretty_print, xml_library)
 
 
-def worker(author_id, page, worker_result):
+def author_researches_worker(author_id, page, worker_result):
     domain = get_config()['domain']
     url = f'{domain}/authors/detail?page={page}&id={author_id}&view=research'
     html = get(url)
@@ -64,3 +65,27 @@ def parse(soup):
         })
 
     return result
+
+
+def dept_researches(dept_ids, affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
+                    max_workers=None):
+    if type(dept_ids) is not list and type(dept_ids) is not tuple:
+        dept_ids = [dept_ids]
+
+    authors = []
+    worker_result = []
+
+    for dept_id in dept_ids:
+        authors.extend(dept_authors(dept_id, affil_id))
+
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        for author in authors:
+            executor.submit(dept_researches_worker, author['id'], worker_result)
+
+    return utils.format_output(worker_result, output_format, pretty_print, xml_library)
+
+
+def dept_researches_worker(author_id, worker_result):
+    researches = author_researches(author_id)
+
+    worker_result.extend(researches)

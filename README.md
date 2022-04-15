@@ -370,6 +370,26 @@ Output:
 ]
 ```
 
+- ### `dept_researches()`
+
+Retrieves researches conducted by authors associated with some department(s). The affiliation ID must specified as well.
+For example:
+
+```
+dept_id = 55001
+affil_id = 417
+researches = sinta.dept_researches(dept_id)
+```
+
+The output format is the same as that given by the `author_researches()` function. Multiple department ID's can be
+specified as long as they belong to the same affiliation. For example:
+
+```
+dept_id = 55001, 90243, 20001
+affil_id = 417
+researches = sinta.dept_researches(dept_id)
+```
+
 - ### `author_scholar_docs()`
 
 Retrieves an author's Google Scholar items. For example:
