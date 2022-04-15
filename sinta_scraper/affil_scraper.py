@@ -68,12 +68,12 @@ def affil_authors(affil_id, output_format='dictionary', pretty_print=None, xml_l
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         for page in range(2, n_page + 1):
-            executor.submit(affil_authors_worker, affil_id, page, worker_result)
+            executor.submit(affil_authors_page_worker, affil_id, page, worker_result)
 
     return utils.format_output(worker_result, output_format, pretty_print, xml_library)
 
 
-def affil_authors_worker(affil_id, page, worker_result):
+def affil_authors_page_worker(affil_id, page, worker_result):
     domain = get_config()['domain']
     url = f'{domain}/affiliations/detail?page={page}&view=authors&id={affil_id}&sort=year2'
     html = get(url)
@@ -100,7 +100,3 @@ def author_parser(soup):
         })
 
     return result
-
-
-if __name__ == '__main__':
-    print(affil([404, 417], output_format='json', pretty_print=True))
