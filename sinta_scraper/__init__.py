@@ -1,4 +1,4 @@
-from sinta_scraper.affil_scraper import affil, affils, affil_authors
+from sinta_scraper.affil_scraper import affil, affil_authors
 from sinta_scraper.author_scraper import author
 from sinta_scraper.comm_svc_scraper import author_comm_services
 from sinta_scraper.dept_scraper import dept_authors

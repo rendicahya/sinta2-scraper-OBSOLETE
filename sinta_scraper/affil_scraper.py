@@ -8,20 +8,18 @@ import utils
 from utils.config import get_config
 
 
-def affil(affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml'):
-    worker_result = []
+def affil(affil_ids, output_format='dictionary', pretty_print=None, xml_library='dicttoxml', max_workers=None):
+    if type(affil_ids) is not list and type(affil_ids) is not tuple:
+        affil_ids = [affil_ids]
 
-    affil_worker(affil_id, worker_result)
-
-    return utils.format_output(worker_result[0], output_format, pretty_print, xml_library)
-
-
-def affils(affil_ids, output_format='dictionary', pretty_print=None, xml_library='dicttoxml', max_workers=None):
     worker_result = []
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         for affil_id in affil_ids:
             executor.submit(affil_worker, affil_id, worker_result)
+
+    if len(worker_result) == 1:
+        worker_result = worker_result[0]
 
     return utils.format_output(worker_result, output_format, pretty_print, xml_library)
 
@@ -102,3 +100,7 @@ def author_parser(soup):
         })
 
     return result
+
+
+if __name__ == '__main__':
+    print(affil([404, 417], output_format='json', pretty_print=True))
