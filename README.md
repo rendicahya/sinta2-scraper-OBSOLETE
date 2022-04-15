@@ -24,7 +24,6 @@ Dependencies: `beautifulsoup4`, `requests`, `dicttoxml`, `dict2xml`, and `python
 
 - [`author()`](#author)
 - [`dept_authors()`](#dept_authors)
-- [`depts_authors()`](#depts_authors)
 - [`affil()`](#affil)
 - [`affils()`](#affils)
 - [`affil_authors()`](#affil_authors)
@@ -131,21 +130,19 @@ Multiple authors can also be retrieved at once:
 ```
 author_ids = 5975467, 6019743
 author = sinta.author(author_id)
-
-print(author)
 ```
 
 The output is a list of author dictionaries.
 
 - ### `dept_authors()`
 
-Retrieves a list of authors associated with a department. Department ID and affiliation ID must be specified. The output
-structure is different from that given by the previous function. This function retrieves only the ID and name of each
-author. For example:
+Retrieves a list of authors associated with some department. Department ID and affiliation ID must be specified. The
+output structure is different from that given by the `author()` function. This function retrieves only the ID and name
+of each author. For example:
 
 ```
-dept_id = '55001'
-affil_id = '417'
+dept_id = 55001
+affil_id = 417
 authors = sinta.dept_authors(dept_id, affil_id)
 
 print(authors)
@@ -182,44 +179,15 @@ Output:
 ]
 ```
 
-- ### `depts_authors()`
-
-Does the same thing as `dept_authors()` except that you can specify a list of department ID's as argument. For example:
+Authors associated to multiple departments can also be retrieved at once:
 
 ```
-dept_ids = ['55001', '20201']
-affil_id = '417'
-authors = sinta.depts_authors(dept_ids, affil_id)
-
-print(authors[:5])
+dept_id = 55001, 90243
+affil_id = 417
+authors = sinta.dept_authors(dept_id, affil_id)
 ```
 
-Output:
-
-```
-[
-    {
-        "id": "29555",
-        "name": "Riyanarto Sarno"
-    },
-    {
-        "id": "6023328",
-        "name": "Nanik Suciati"
-    },
-    {
-        "id": "5975467",
-        "name": "Agus Zainal Arifin"
-    },
-    {
-        "id": "5993318",
-        "name": "Handayani Tjandrasa"
-    },
-    {
-        "id": "5993763",
-        "name": "Joko Lianto Buliali"
-    }
-]
-```
+Note that the output is "flat", i.e. the authors from different departments are put into the same level.
 
 - ### `affil()`
 

@@ -70,11 +70,3 @@ def dept_authors_worker(dept_id, affil_id, worker_result):
     authors = retrieve_authors(dept_id, affil_id)
 
     worker_result.extend(authors)
-
-
-if __name__ == '__main__':
-    dept_ids = 55001
-    affil_id = 404
-    authors = dept_authors(dept_ids, affil_id)
-
-    print(authors)
