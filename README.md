@@ -136,7 +136,7 @@ The output is a list of author dictionaries.
 
 - ### `dept_authors()`
 
-Retrieves a list of authors associated with some department. Department ID and affiliation ID must be specified. The
+Retrieves a list of authors associated with a department. Department ID and affiliation ID must be specified. The
 output structure is different from that given by the `author()` function. This function retrieves only the ID and name
 of each author. For example:
 
@@ -179,7 +179,7 @@ Output:
 ]
 ```
 
-Authors associated to multiple departments can also be retrieved at once:
+Authors associated with multiple departments can also be retrieved at once:
 
 ```
 dept_id = 55001, 90243
@@ -194,7 +194,7 @@ Note that the output is "flat", i.e. the authors from different departments are 
 Retrieves information about an affiliation. For example:
 
 ```
-affil_id = '417'
+affil_id = 417
 affil = sinta.affil(affil_id)
 
 print(affil)
@@ -227,7 +227,7 @@ Output:
 Retrieves information about several affiliations. For example:
 
 ```
-affil_ids = ['417', '404']
+affil_ids = [417, 404]
 affils = sinta.affils(affil_ids)
 
 print(affils)
@@ -280,7 +280,7 @@ Retrieves authors associated with the specified affiliation. This function usual
 example:
 
 ```
-affil_id = '417'
+affil_id = 417
 authors = sinta.affil_authors(affil_id)
 
 print(authors[:5])
@@ -323,7 +323,7 @@ Output:
 Retrieves an author's researches. For example:
 
 ```
-author_id = '6005015'
+author_id = 6005015
 researches = sinta.author_researches(author_id)
 
 print(researches[:2])
@@ -395,7 +395,7 @@ researches = sinta.dept_researches(dept_id)
 Retrieves an author's Google Scholar items. For example:
 
 ```
-author_id = '6005015'
+author_id = 6005015
 scholar_docs = sinta.author_scholar_docs(author_id)
 
 print(scholar_docs[:2])
@@ -425,7 +425,7 @@ Output:
 You can also specify the minimum and maximum year. For example:
 
 ```
-author_id = '6005015'
+author_id = 6005015
 scholar = sinta.author_scholar_docs(author_id, min_year=2017, max_year=2020)
 ```
 
@@ -434,8 +434,8 @@ scholar = sinta.author_scholar_docs(author_id, min_year=2017, max_year=2020)
 Retrieves all Google Scholar documents written by authors in a department. For example:
 
 ```
-dept_id = '55001'
-affil_id = '404'
+dept_id = 55001
+affil_id = 404
 scholar_docs = sinta.dept_scholar_docs(dept_id, affil_id)
 
 print(scholar_docs[0])
@@ -493,7 +493,7 @@ Output:
 Retrieves an author's Scopus documents. For example:
 
 ```
-author_id = '6005015'
+author_id = 6005015
 scopus = sinta.author_scopus_docs(author_id)
 
 print(scopus[:2])
@@ -527,7 +527,7 @@ Output:
 You can also specify the minimum and maximum date. The date must be in "yyyy-mm-dd" format. For example:
 
 ```
-author_id = '6005015'
+author_id = 6005015
 scopus = sinta.author_scopus_docs(author_id, min_date='2015-01-01', max_date='2019-12-31')
 ```
 
@@ -536,7 +536,7 @@ scopus = sinta.author_scopus_docs(author_id, min_date='2015-01-01', max_date='20
 Retrieves an author's Scopus journal documents. For example:
 
 ```
-author_id = '6005015'
+author_id = 6005015
 scopus = sinta.author_scopus_journal_docs(author_id)
 ```
 
@@ -545,7 +545,7 @@ scopus = sinta.author_scopus_journal_docs(author_id)
 Retrieves an author's Scopus conference documents. For example:
 
 ```
-author_id = '6005015'
+author_id = 6005015
 scopus = sinta.author_scopus_conference_docs(author_id)
 ```
 
@@ -554,7 +554,7 @@ scopus = sinta.author_scopus_conference_docs(author_id)
 Retrieves an author's Web of Science documents. For example:
 
 ```
-author_id = '6005015'
+author_id = 6005015
 wos = sinta.author_wos_docs(author_id)
 
 print(wos[:2])
@@ -586,7 +586,7 @@ Output:
 Retrieves an author's community service items. For example:
 
 ```
-author_id = '5996278'
+author_id = 5996278
 comm_svc = sinta.author_comm_services(author_id)
 
 print(comm_svc)
@@ -619,7 +619,7 @@ Output:
 Retrieves an author's intellectual property right (IPR) items. For example:
 
 ```
-author_id = '5996278'
+author_id = 5996278
 ipr = sinta.author_ipr(author_id)
 
 print(ipr)
