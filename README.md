@@ -28,14 +28,15 @@ Dependencies: `beautifulsoup4`, `requests`, `dicttoxml`, `dict2xml`, and `python
 - [`author()`](#author)
 - [`author_researches()`](#author_researches)
 - [`author_scholar_docs()`](#author_scholar_docs)
-- [`dept_authors()`](#dept_authors)
-- [`dept_scholar_docs()`](#dept_scholar_docs)
 - [`author_scopus_docs()`](#author_scopus_docs)
 - [`author_scopus_journal_docs()`](#author_scopus_journal_docs)
 - [`author_scopus_conference_docs()`](#author_scopus_conference_docs)
 - [`author_wos_docs()`](#author_wos_docs)
 - [`author_comm_services()`](#author_comm_services)
 - [`author_ipr()`](#author_ipr)
+- [`dept_authors()`](#dept_authors)
+- [`dept_researches()`](#dept_researches)
+- [`dept_scholar_docs()`](#dept_scholar_docs)
 
 ## Function Details
 
