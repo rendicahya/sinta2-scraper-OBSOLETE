@@ -1,6 +1,6 @@
 from sinta_scraper.affil_scraper import affil, affil_authors
 from sinta_scraper.author_scraper import author
-from sinta_scraper.comm_svc_scraper import author_comm_services
+from sinta_scraper.comm_svc_scraper import author_comm_services, dept_comm_services
 from sinta_scraper.dept_scraper import dept_authors
 from sinta_scraper.ipr_scraper import author_ipr
 from sinta_scraper.research_scraper import author_researches, dept_researches

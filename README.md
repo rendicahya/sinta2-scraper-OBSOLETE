@@ -38,6 +38,7 @@ Dependencies: `beautifulsoup4`, `requests`, `dicttoxml`, `dict2xml`, and `python
 - [`dept_scholar_docs()`](#dept_scholar_docs)
 - [`dept_scopus_docs()`](#dept_scopus_docs)
 - [`dept_wos_docs()`](#dept_wos_docs)
+- [`dept_comm_services()`](#dept_comm_services)
 
 ## Function Details
 
@@ -572,6 +573,40 @@ Output:
 ]
 ```
 
+- ### `dept_comm_services()`
+
+Retrieves all community services written by authors associated with a department. For example:
+
+```
+dept_id = 55001
+affil_id = 417
+comm_services = sinta.dept_comm_services(dept_id, affil_id)
+
+print(comm_services)
+```
+
+Output:
+
+```
+[
+    {
+        "title": "Pembangunan dan Manajemen Aplikasi Ujian Online bagi MAN Kota Blitar dan MA Matholi'ul Anwar Karanggeneng Lamongan",
+        "scheme": "Pengabdian Kepada Masyarakat Kompetitif Nasional ( PKM )",
+        "source": "Simlitabmas",
+        "members": [
+            "Arya Yudhi Wijaya",
+            "Agus Zainal Arifin",
+            "Hudan Studiawan"
+        ],
+        "application_year": 2014,
+        "event_year": 2015,
+        "fund": 42500000,
+        "field": "Teknologi Informasi dan Komunikasi",
+        "sponsor": "Ristekdikti"
+    }
+]
+```
+
 ## Other Output Formats
 
 Other formats can be used by specifying the `output_format` argument:
@@ -763,8 +798,7 @@ Output:
 - Other output formats: CSV.
 - `dept_scopus_journal_docs` function.
 - `dept_scopus_conference_docs` function.
-- `dept_scopus_comm_services` function.
-- `dept_scopus_ipr` function.
+- `dept_ipr` function.
 - `find_affil(keyword)` function.
 - `affil_depts(affil_id)` function.
 - `dept(dept_id)` function.
