@@ -783,6 +783,12 @@ Output:
 ### Todo
 
 - Other output formats: CSV.
+- `dept_scopus_docs` function.
+- `dept_scopus_journal_docs` function.
+- `dept_scopus_conference_docs` function.
+- `dept_scopus_wos_docs` function.
+- `dept_scopus_comm_services` function.
+- `dept_scopus_ipr` function.
 - `find_affil(keyword)` function.
 - `affil_depts(affil_id)` function.
 - `dept(dept_id)` function.
