@@ -5,7 +5,7 @@ from requests import get
 from string_utils.validation import is_integer
 
 import utils
-from dept_scraper import dept_authors
+from sinta_scraper.dept_scraper import dept_authors
 from utils.config import get_config
 
 

@@ -5,8 +5,8 @@ from bs4 import BeautifulSoup
 from requests import get
 
 import utils
+from sinta_scraper.dept_scraper import dept_authors
 from utils.config import get_config
-from dept_scraper import dept_authors
 
 
 def author_researches(author_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
