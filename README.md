@@ -23,7 +23,6 @@ Dependencies: `beautifulsoup4`, `requests`, `dicttoxml`, `dict2xml`, and `python
 ## Available Functions
 
 - [`affil()`](#affil)
-- [`affils()`](#affils)
 - [`affil_authors()`](#affil_authors)
 - [`author()`](#author)
 - [`author_researches()`](#author_researches)
@@ -73,61 +72,16 @@ Output:
 }
 ```
 
-- ### `affils()`
-
-Retrieves information about several affiliations. For example:
+Multiple authors can also be retrieved at once:
 
 ```
-affil_ids = [417, 404]
-affils = sinta.affils(affil_ids)
-
-print(affils)
-```
-
-Output
-
-```
-[
-    {
-        "name": "Institut Teknologi Sepuluh Nopember",
-        "url": "https://its.ac.id",
-        "score": {
-            "overall": 37400,
-            "overall_v2": 540707,
-            "3_years": 5222,
-            "3_years_v2": 182038
-        },
-        "rank": {
-            "national": 7,
-            "3_years_national": 11
-        },
-        "journals": 25,
-        "verified_authors": 1115,
-        "lecturers": 961
-    },
-    {
-        "name": "Universitas Brawijaya",
-        "url": "www.ub.ac.id",
-        "score": {
-            "overall": 53982,
-            "overall_v2": 538192,
-            "3_years": 5946,
-            "3_years_v2": 217740
-        },
-        "rank": {
-            "national": 9,
-            "3_years_national": 8
-        },
-        "journals": 67,
-        "verified_authors": 2318,
-        "lecturers": 2052
-    }
-]
+affil_id = 417, 404
+affil = sinta.affil(affil_id)
 ```
 
 - ### `affil_authors()`
 
-Retrieves authors associated with the specified affiliation. This function usually takes more time to complete. For
+Retrieves authors associated with the specified affiliation. This function usually takes time to complete. For
 example:
 
 ```
@@ -509,8 +463,8 @@ Output:
 - ### `dept_authors()`
 
 Retrieves a list of authors associated with a department. Department ID and affiliation ID must be specified. The
-output structure is different from that given by the `author()` function. This function retrieves only the ID and name
-of each author. For example:
+output structure is different from that given by the [`author()`](#author) function. This function retrieves only the ID
+and name of each author. For example:
 
 ```
 dept_id = 55001
