@@ -39,6 +39,7 @@ Dependencies: `beautifulsoup4`, `requests`, `dicttoxml`, `dict2xml`, and `python
 - [`dept_scopus_docs()`](#dept_scopus_docs)
 - [`dept_wos_docs()`](#dept_wos_docs)
 - [`dept_comm_services()`](#dept_comm_services)
+- [`dept_ipr()`](#dept_ipr)
 
 ## Function Details
 
@@ -313,6 +314,7 @@ scopus_journal_docs = sinta.author_scopus_journal_docs(author_id)
 ```
 
 Output:
+
 ```
 [
     {
@@ -337,6 +339,7 @@ scopus = sinta.author_scopus_conference_docs(author_id)
 ```
 
 Output:
+
 ```
 [
     {
@@ -607,6 +610,32 @@ Output:
 ]
 ```
 
+- ### `dept_ipr()`
+
+Retrieves all IPR written by authors associated with a department. For example:
+
+```
+dept_id = 55001
+affil_id = 417
+ipr = sinta.dept_ipr(dept_id, affil_id)
+
+print(ipr)
+```
+
+Output:
+
+```
+[
+    {
+        "id": "P00201507914",
+        "title": "Metode Deteksi Osteoporosis Berdasarkan Analisa Kepadatan Tulang Trabeculae pada Citra Panorama Gigi",
+        "category": "paten",
+        "year": "2015",
+        "holder": ""
+    }
+]
+```
+
 ## Other Output Formats
 
 Other formats can be used by specifying the `output_format` argument:
@@ -796,9 +825,8 @@ Output:
 ### Todo
 
 - Other output formats: CSV.
-- `dept_scopus_journal_docs` function.
-- `dept_scopus_conference_docs` function.
-- `dept_ipr` function.
+- `dept_scopus_journal_docs(dept_id)` function.
+- `dept_scopus_conference_docs(dept_id)` function.
 - `find_affil(keyword)` function.
 - `affil_depts(affil_id)` function.
 - `dept(dept_id)` function.
