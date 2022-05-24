@@ -5,7 +5,7 @@ from requests import get
 from string_utils.validation import is_integer
 
 import utils
-from dept_scraper import retrieve_authors
+from dept_scraper import dept_authors
 from utils.config import get_config
 
 
@@ -67,14 +67,25 @@ def parse(soup):
     return result
 
 
-def dept_scholar_docs(dept_id, affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
+def dept_scholar_docs(dept_ids, affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
                       min_year=None, max_year=None, max_workers=None):
-    authors = retrieve_authors(dept_id, affil_id)
-    output = []
+    if type(dept_ids) is not list and type(dept_ids) is not tuple:
+        dept_ids = [dept_ids]
 
-    for author in authors:
-        author['docs'] = author_scholar_docs(author['id'], min_year, max_year, max_workers)
+    authors = []
+    worker_result = []
 
-        output.append(author)
+    for dept_id in dept_ids:
+        authors.extend(dept_authors(dept_id, affil_id))
 
-    return utils.format_output(output, output_format, pretty_print, xml_library)
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        for author in authors:
+            executor.submit(dept_scholar_docs_worker, author['id'], min_year, max_year, worker_result)
+
+    return utils.format_output(worker_result, output_format, pretty_print, xml_library)
+
+
+def dept_scholar_docs_worker(author_id, min_year, max_year, worker_result):
+    docs = author_scholar_docs(author_id, min_year=min_year, max_year=max_year)
+
+    worker_result.extend(docs)
