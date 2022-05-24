@@ -36,6 +36,8 @@ Dependencies: `beautifulsoup4`, `requests`, `dicttoxml`, `dict2xml`, and `python
 - [`dept_authors()`](#dept_authors)
 - [`dept_researches()`](#dept_researches)
 - [`dept_scholar_docs()`](#dept_scholar_docs)
+- [`dept_scopus_docs()`](#dept_scopus_docs)
+- [`dept_wos_docs()`](#dept_wos_docs)
 
 ## Function Details
 
@@ -544,6 +546,32 @@ Output:
 ]
 ```
 
+- ### `dept_wos_docs()`
+
+Retrieves all WoS documents written by authors associated with a department. For example:
+
+```
+dept_id = 55001
+affil_id = 417
+wos_docs = sinta.dept_wos_docs(dept_id, affil_id)
+
+print(wos_docs)
+```
+
+Output:
+
+```
+[
+    {
+        "title": "Image segmentation by histogram thresholding using hierarchical cluster analysis",
+        "publisher": "PATTERN RECOGNITION LETTERS",
+        "issn": "0167-8655",
+        "doi": "10.1016/J.PATREC.2006.02.022",
+        "uid": "WOS:000239355100012"
+    }
+]
+```
+
 ## Other Output Formats
 
 Other formats can be used by specifying the `output_format` argument:
@@ -735,7 +763,6 @@ Output:
 - Other output formats: CSV.
 - `dept_scopus_journal_docs` function.
 - `dept_scopus_conference_docs` function.
-- `dept_scopus_wos_docs` function.
 - `dept_scopus_comm_services` function.
 - `dept_scopus_ipr` function.
 - `find_affil(keyword)` function.

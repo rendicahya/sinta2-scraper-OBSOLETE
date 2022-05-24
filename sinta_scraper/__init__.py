@@ -7,4 +7,4 @@ from sinta_scraper.research_scraper import author_researches, dept_researches
 from sinta_scraper.scholar_documents_scraper import author_scholar_docs, dept_scholar_docs
 from sinta_scraper.scopus_documents_scraper import author_scopus_docs, author_scopus_journal_docs, \
     author_scopus_conference_docs, dept_scopus_docs
-from sinta_scraper.wos_documents_scraper import author_wos_docs
+from sinta_scraper.wos_documents_scraper import author_wos_docs, dept_wos_docs

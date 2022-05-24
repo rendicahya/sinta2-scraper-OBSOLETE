@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from requests import get
 
 import utils
+from sinta_scraper.dept_scraper import dept_authors
 from utils.config import get_config
 
 
@@ -60,3 +61,27 @@ def parse(soup):
         })
 
     return result
+
+
+def dept_wos_docs(dept_ids, affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
+                  max_workers=None):
+    if type(dept_ids) is not list and type(dept_ids) is not tuple:
+        dept_ids = [dept_ids]
+
+    authors = []
+    worker_result = []
+
+    for dept_id in dept_ids:
+        authors.extend(dept_authors(dept_id, affil_id))
+
+    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+        for author in authors:
+            executor.submit(dept_wos_docs_worker, author['id'], worker_result)
+
+    return utils.format_output(worker_result, output_format, pretty_print, xml_library)
+
+
+def dept_wos_docs_worker(author_id, worker_result):
+    wos_docs = author_wos_docs(author_id)
+
+    worker_result.extend(wos_docs)

@@ -1,13 +1,14 @@
 import re
 from concurrent.futures import ThreadPoolExecutor
+from datetime import datetime
 
 from bs4 import BeautifulSoup
 from requests import get
 from string_utils.validation import is_integer
-from sinta_scraper.dept_scraper import dept_authors
+
 import utils
+from sinta_scraper.dept_scraper import dept_authors
 from utils.config import get_config
-from datetime import datetime
 
 
 def author_scopus_docs(author_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
