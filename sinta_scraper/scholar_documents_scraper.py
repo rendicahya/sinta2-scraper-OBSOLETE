@@ -53,11 +53,13 @@ def parse(soup):
             continue
 
         link = link[0]
+        authors = row.select('dd')[0].text.split(', ')
         info = row.select('dd.indexed-by')[0].text.strip().split('|')
         citations = row.select('.index-val')[1].text.strip()
 
         result.append({
             'title': link.text,
+            'authors': authors,
             'url': link['href'],
             'publisher': info[0].strip(),
             'year': utils.cast(info[3].strip()),
@@ -89,3 +91,7 @@ def dept_scholar_docs_worker(author_id, min_year, max_year, worker_result):
     docs = author_scholar_docs(author_id, min_year=min_year, max_year=max_year)
 
     worker_result.extend(docs)
+
+
+if __name__ == '__main__':
+    print(author_scholar_docs(6689329, output_format='json', pretty_print=True))
