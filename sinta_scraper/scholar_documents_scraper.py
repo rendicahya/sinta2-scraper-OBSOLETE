@@ -91,7 +91,3 @@ def dept_scholar_docs_worker(author_id, min_year, max_year, worker_result):
     docs = author_scholar_docs(author_id, min_year=min_year, max_year=max_year)
 
     worker_result.extend(docs)
-
-
-if __name__ == '__main__':
-    print(author_scholar_docs(6689329, output_format='json', pretty_print=True))
