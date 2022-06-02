@@ -126,11 +126,3 @@ def dept_scholar_parser(soup):
         })
 
     return result
-
-
-if __name__ == '__main__':
-    # dept_ids = 55201, 57201, 59201, 83207, 56201, 55101
-    dept_ids = 55101
-    affil_id = 404
-
-    print(dept_scholar(dept_ids, affil_id, output_format='json', pretty_print=True))
