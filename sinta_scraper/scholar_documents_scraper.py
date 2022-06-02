@@ -117,7 +117,7 @@ def dept_scholar_parser(soup, min_year, max_year):
         year = cast(info[3].strip())
 
         if (min_year is not None and is_integer(str(year)) and int(year) < min_year) or (
-                max_year is not None and is_integer(str(year)) and int(year) < min_year):
+                max_year is not None and is_integer(str(year)) and int(year) > min_year):
             continue
 
         result.append({
