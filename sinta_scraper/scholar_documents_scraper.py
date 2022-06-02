@@ -87,7 +87,6 @@ def dept_scholar(dept_ids, affil_id, output_format='dictionary', pretty_print=No
             for page in range(2, n_page + 1):
                 executor.submit(dept_scholar_worker, dept_id, affil_id, page, min_year, max_year, worker_result)
 
-    print(len(worker_result))
     return format_output(worker_result, output_format, pretty_print, xml_library)
 
 
