@@ -21,7 +21,7 @@ def author_scholar_docs(author_id, output_format='dictionary', pretty_print=None
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         for page in range(2, n_page + 1):
-            executor.submit(worker, author_id, page, worker_result)
+            executor.submit(author_scholar_docs_worker, author_id, page, worker_result)
 
     if min_year is not None:
         worker_result = [doc for doc in worker_result if is_integer(str(doc['year'])) and doc['year'] >= min_year]
@@ -32,7 +32,7 @@ def author_scholar_docs(author_id, output_format='dictionary', pretty_print=None
     return format_output(worker_result, output_format, pretty_print, xml_library)
 
 
-def worker(author_id, page, worker_result):
+def author_scholar_docs_worker(author_id, page, worker_result):
     domain = get_config()['domain']
     url = f'{domain}/authors/detail?page={page}&id={author_id}&view=documentsgs'
     html = get(url)
