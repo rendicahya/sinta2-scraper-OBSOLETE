@@ -45,7 +45,7 @@ def author_scholar_worker(author_id, page, worker_result):
 def author_scholar_parser(soup):
     rows = soup.select('table.uk-table tr')
     result = []
-    publisher_regex = re.compile(r'([A-Za-z ]+)\s*(\d+)\s*(\((\d+)\))*[,\s]*(\d+-*\d*)[,\s]*(\d{4})*')
+    publisher_regex = re.compile(r'([A-Za-z ]+)\s*(\d+)\s*\((\d+)\)[,\s]*(\d+-*\d*)[,\s]*(\d{4})*')
 
     for row in rows:
         link = row.select('a.paper-link')
@@ -113,7 +113,7 @@ def dept_scholar_worker(dept_id, affil_id, page, min_year, max_year, worker_resu
 def dept_scholar_parser(soup, min_year, max_year):
     rows = soup.select('table.uk-table tr')
     result = []
-    publisher_regex = re.compile(r'([A-Za-z ]+)\s*(\d+)\s*(\((\d+)\))*[,\s]*(\d+-*\d*)[,\s]*(\d{4})*')
+    publisher_regex = re.compile(r'([A-Za-z ]+)\s*(\d+)\s*\((\d+)\)[,\s]*(\d+-*\d*)[,\s]*(\d{4})*')
 
     for row in rows:
         link = row.select('a.paper-link')
