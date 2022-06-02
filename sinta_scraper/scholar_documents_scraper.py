@@ -81,7 +81,7 @@ def dept_scholar(dept_ids, affil_id, output_format='dictionary', pretty_print=No
         page_info = soup.select('.uk-width-large-1-2.table-footer')
         n_page = cast(page_info[0].text.strip().split()[3])
 
-        worker_result.extend(dept_scholar_parser(soup))
+        worker_result.extend(dept_scholar_parser(soup, min_year, max_year))
 
         with ThreadPoolExecutor() as executor:
             for page in range(2, n_page + 1):
@@ -95,12 +95,12 @@ def dept_scholar_worker(dept_id, affil_id, page, min_year, max_year, worker_resu
     url = f'{domain}/departments/detail?page={page}&id={dept_id}&afil={affil_id}&view=documents'
     html = get(url)
     soup = BeautifulSoup(html.content, 'html.parser')
-    result = dept_scholar_parser(soup)
+    result = dept_scholar_parser(soup, min_year, max_year)
 
     worker_result.extend(result)
 
 
-def dept_scholar_parser(soup):
+def dept_scholar_parser(soup, min_year, max_year):
     rows = soup.select('table.uk-table tr')
     result = []
 
@@ -114,6 +114,11 @@ def dept_scholar_parser(soup):
         authors = row.select('dd')[0].text.split(', ')
         info = row.select('dd.indexed-by')[0].text.strip().split('|')
         citations = row.select('.index-val')[1].text.strip()
+        year = cast(info[3].strip())
+
+        if (min_year is not None and is_integer(str(year)) and int(year) < min_year) or (
+                max_year is not None and is_integer(str(year)) and int(year) < min_year):
+            continue
 
         result.append({
             'title': link.text,
