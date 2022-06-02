@@ -25,6 +25,9 @@ def format_output(obj, output_format, pretty_print, xml_library):
 
 
 def cast(string: str):
+    if string is None:
+        return None
+
     string = string.strip()
 
     if is_integer(string):
