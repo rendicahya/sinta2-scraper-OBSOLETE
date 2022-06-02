@@ -4,9 +4,9 @@ from bs4 import BeautifulSoup
 from requests import get
 from string_utils.validation import is_integer
 
-import utils
 from sinta_scraper.dept_scraper import dept_authors
 from utils.config import get_config
+from utils.utils import cast, format_output, listify
 
 
 def author_scholar_docs(author_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
@@ -16,7 +16,7 @@ def author_scholar_docs(author_id, output_format='dictionary', pretty_print=None
     html = get(url)
     soup = BeautifulSoup(html.content, 'html.parser')
     page_info = soup.select('.uk-width-large-1-2.table-footer')
-    n_page = utils.cast(page_info[0].text.strip().split()[3])
+    n_page = cast(page_info[0].text.strip().split()[3])
     worker_result = parse(soup)
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
@@ -29,7 +29,7 @@ def author_scholar_docs(author_id, output_format='dictionary', pretty_print=None
     if max_year is not None:
         worker_result = [doc for doc in worker_result if is_integer(str(doc['year'])) and doc['year'] <= max_year]
 
-    return utils.format_output(worker_result, output_format, pretty_print, xml_library)
+    return format_output(worker_result, output_format, pretty_print, xml_library)
 
 
 def worker(author_id, page, worker_result):
@@ -62,8 +62,8 @@ def parse(soup):
             'authors': authors,
             'url': link['href'],
             'publisher': info[0].strip(),
-            'year': utils.cast(info[3].strip()),
-            'citations': utils.cast(citations) if is_integer(citations) else 0
+            'year': cast(info[3].strip()),
+            'citations': cast(citations) if is_integer(citations) else 0
         })
 
     return result
@@ -71,8 +71,7 @@ def parse(soup):
 
 def dept_scholar_docs(dept_ids, affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
                       min_year=None, max_year=None, max_workers=None):
-    if type(dept_ids) is not list and type(dept_ids) is not tuple:
-        dept_ids = [dept_ids]
+    dept_ids = listify(dept_ids)
 
     authors = []
     worker_result = []
@@ -84,7 +83,7 @@ def dept_scholar_docs(dept_ids, affil_id, output_format='dictionary', pretty_pri
         for author in authors:
             executor.submit(dept_scholar_docs_worker, author['id'], min_year, max_year, worker_result)
 
-    return utils.format_output(worker_result, output_format, pretty_print, xml_library)
+    return format_output(worker_result, output_format, pretty_print, xml_library)
 
 
 def dept_scholar_docs_worker(author_id, min_year, max_year, worker_result):
