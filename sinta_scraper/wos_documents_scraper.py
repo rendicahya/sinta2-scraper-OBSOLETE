@@ -3,7 +3,7 @@ from concurrent.futures import ThreadPoolExecutor
 from bs4 import BeautifulSoup
 from requests import get
 
-import utils
+from utils.utils import cast, format_output, listify
 from sinta_scraper.dept_scraper import dept_authors
 from utils.config import get_config
 
@@ -15,14 +15,14 @@ def author_wos_docs(author_id, output_format='dictionary', pretty_print=None, xm
     html = get(url)
     soup = BeautifulSoup(html.content, 'html.parser')
     page_info = soup.select('.uk-width-large-1-2.table-footer')
-    n_page = utils.cast(page_info[0].text.strip().split()[3])
+    n_page = cast(page_info[0].text.strip().split()[3])
     worker_result = parse(soup)
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
         for page in range(2, n_page + 1):
             executor.submit(worker, author_id, page, worker_result)
 
-    return utils.format_output(worker_result, output_format, pretty_print, xml_library)
+    return format_output(worker_result, output_format, pretty_print, xml_library)
 
 
 def worker(author_id, page, worker_result):
@@ -65,8 +65,7 @@ def parse(soup):
 
 def dept_wos_docs(dept_ids, affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
                   max_workers=None):
-    if type(dept_ids) is not list and type(dept_ids) is not tuple:
-        dept_ids = [dept_ids]
+    dept_ids = listify(dept_ids)
 
     authors = []
     worker_result = []
@@ -78,7 +77,7 @@ def dept_wos_docs(dept_ids, affil_id, output_format='dictionary', pretty_print=N
         for author in authors:
             executor.submit(dept_wos_docs_worker, author['id'], worker_result)
 
-    return utils.format_output(worker_result, output_format, pretty_print, xml_library)
+    return format_output(worker_result, output_format, pretty_print, xml_library)
 
 
 def dept_wos_docs_worker(author_id, worker_result):
