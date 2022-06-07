@@ -78,8 +78,8 @@ def author_scholar_parser(soup):
     return result
 
 
-def dept_scholar(dept_ids, affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
-                 min_year=None, max_year=None):
+def dept_scholar_docs(dept_ids, affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
+                      min_year=None, max_year=None):
     dept_ids = listify(dept_ids)
     worker_result = []
 
