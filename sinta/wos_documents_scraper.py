@@ -3,7 +3,7 @@ from concurrent.futures import ThreadPoolExecutor
 from bs4 import BeautifulSoup
 from requests import get
 
-from sinta_scraper.dept_scraper import dept_authors
+from sinta.dept_scraper import dept_authors
 from utils.config import get_config
 from utils.utils import cast, format_output, listify
 

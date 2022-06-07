@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 from requests import get
 from string_utils.validation import is_integer
 
-from sinta_scraper.dept_scraper import dept_authors
+from sinta.dept_scraper import dept_authors
 from utils.config import get_config
 from utils.utils import cast, format_output, listify
 

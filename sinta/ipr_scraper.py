@@ -1,17 +1,16 @@
-import re
 from concurrent.futures import ThreadPoolExecutor
 
 from bs4 import BeautifulSoup
 from requests import get
 
 import utils
-from sinta_scraper.dept_scraper import dept_authors
+from sinta.dept_scraper import dept_authors
 from utils.config import get_config
 
 
-def author_comm_services(author_id, output_format='dictionary'):
+def author_ipr(author_id, output_format='dictionary'):
     domain = get_config()['domain']
-    url = f'{domain}/authors/detail?id={author_id}&view=services'
+    url = f'{domain}/authors/detail?id={author_id}&view=ipr'
     html = get(url)
     soup = BeautifulSoup(html.content, 'html.parser')
     page_info = soup.select('.uk-width-large-1-2.table-footer')
@@ -27,7 +26,7 @@ def author_comm_services(author_id, output_format='dictionary'):
 
 def worker(author_id, page, worker_result):
     domain = get_config()['domain']
-    url = f'{domain}/authors/detail?page={page}&id={author_id}&view=services'
+    url = f'{domain}/authors/detail?page={page}&id={author_id}&view=ipr'
     html = get(url)
     soup = BeautifulSoup(html.content, 'html.parser')
     data = parse(soup)
@@ -40,33 +39,26 @@ def parse(soup):
     result = []
 
     for row in rows:
-        link = row.select('a.paper-link')
+        h4 = row.select('h4.uk-text-primary')
 
-        if not link:
+        if not h4:
             continue
 
-        link = link[0]
-        info1 = row.select('dd.indexed-by-orange')[0].text.split('|')
-        dd = row.select('dd')
-        info2 = [i.split(':')[1].strip() for i in dd[2].text.strip().split('\r\n')]
-        members = [member.strip() for member in dd[1].text.split(',') if member.strip()]
+        h4 = h4[0]
+        info = row.select('.uk-text-success')
 
         result.append({
-            'title': link.text.strip(),
-            'scheme': info1[0].split(':')[1].strip(),
-            'source': info1[1].split(':')[1].strip(),
-            'members': members,
-            'application_year': utils.cast(info2[0]),
-            'event_year': utils.cast(info2[1]),
-            'fund': utils.cast(re.sub(r'[Rp\.\s\,]', '', info2[2])[:-2]),
-            'field': dd[3].text.strip(),
-            'sponsor': row.select('td.uk-text-center')[0].text.strip()
+            'id': info[0].text.strip(),
+            'title': h4.text.strip(),
+            'category': info[1].text.strip(),
+            'year': info[2].text.strip(),
+            'holder': info[3].text.strip()
         })
 
     return result
 
 
-def dept_comm_services(dept_ids, affil_id, output_format='dictionary'):
+def dept_ipr(dept_ids, affil_id, output_format='dictionary'):
     if type(dept_ids) is not list and type(dept_ids) is not tuple:
         dept_ids = [dept_ids]
 
@@ -78,12 +70,12 @@ def dept_comm_services(dept_ids, affil_id, output_format='dictionary'):
 
     with ThreadPoolExecutor() as executor:
         for author in authors:
-            executor.submit(dept_comm_services_worker, author['id'], worker_result)
+            executor.submit(dept_ipr_worker, author['id'], worker_result)
 
     return utils.format_output(worker_result, output_format)
 
 
-def dept_comm_services_worker(author_id, worker_result):
-    researches = author_comm_services(author_id)
+def dept_ipr_worker(author_id, worker_result):
+    researches = author_ipr(author_id)
 
     worker_result.extend(researches)
