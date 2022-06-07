@@ -3,13 +3,12 @@ from concurrent.futures import ThreadPoolExecutor
 from bs4 import BeautifulSoup
 from requests import get
 
-from utils.utils import cast, format_output, listify
 from sinta_scraper.dept_scraper import dept_authors
 from utils.config import get_config
+from utils.utils import cast, format_output, listify
 
 
-def author_wos_docs(author_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
-                    max_workers=None):
+def author_wos(author_id, output_format='dictionary'):
     domain = get_config()['domain']
     url = f'{domain}/authors/detail?id={author_id}&view=documentswos'
     html = get(url)
@@ -18,11 +17,11 @@ def author_wos_docs(author_id, output_format='dictionary', pretty_print=None, xm
     n_page = cast(page_info[0].text.strip().split()[3])
     worker_result = parse(soup)
 
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+    with ThreadPoolExecutor() as executor:
         for page in range(2, n_page + 1):
             executor.submit(worker, author_id, page, worker_result)
 
-    return format_output(worker_result, output_format, pretty_print, xml_library)
+    return format_output(worker_result, output_format)
 
 
 def worker(author_id, page, worker_result):
@@ -63,8 +62,7 @@ def parse(soup):
     return result
 
 
-def dept_wos_docs(dept_ids, affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
-                  max_workers=None):
+def dept_wos(dept_ids, affil_id, output_format='dictionary'):
     dept_ids = listify(dept_ids)
 
     authors = []
@@ -73,14 +71,14 @@ def dept_wos_docs(dept_ids, affil_id, output_format='dictionary', pretty_print=N
     for dept_id in dept_ids:
         authors.extend(dept_authors(dept_id, affil_id))
 
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+    with ThreadPoolExecutor() as executor:
         for author in authors:
             executor.submit(dept_wos_docs_worker, author['id'], worker_result)
 
-    return format_output(worker_result, output_format, pretty_print, xml_library)
+    return format_output(worker_result, output_format)
 
 
 def dept_wos_docs_worker(author_id, worker_result):
-    wos_docs = author_wos_docs(author_id)
+    wos_docs = author_wos(author_id)
 
     worker_result.extend(wos_docs)

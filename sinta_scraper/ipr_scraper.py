@@ -8,7 +8,7 @@ from sinta_scraper.dept_scraper import dept_authors
 from utils.config import get_config
 
 
-def author_ipr(author_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml', max_workers=None):
+def author_ipr(author_id, output_format='dictionary'):
     domain = get_config()['domain']
     url = f'{domain}/authors/detail?id={author_id}&view=ipr'
     html = get(url)
@@ -17,11 +17,11 @@ def author_ipr(author_id, output_format='dictionary', pretty_print=None, xml_lib
     n_page = utils.cast(page_info[0].text.strip().split()[3])
     worker_result = parse(soup)
 
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+    with ThreadPoolExecutor() as executor:
         for page in range(2, n_page + 1):
             executor.submit(worker, author_id, page, worker_result)
 
-    return utils.format_output(worker_result, output_format, pretty_print, xml_library)
+    return utils.format_output(worker_result, output_format)
 
 
 def worker(author_id, page, worker_result):
@@ -58,8 +58,7 @@ def parse(soup):
     return result
 
 
-def dept_ipr(dept_ids, affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
-             max_workers=None):
+def dept_ipr(dept_ids, affil_id, output_format='dictionary'):
     if type(dept_ids) is not list and type(dept_ids) is not tuple:
         dept_ids = [dept_ids]
 
@@ -69,11 +68,11 @@ def dept_ipr(dept_ids, affil_id, output_format='dictionary', pretty_print=None, 
     for dept_id in dept_ids:
         authors.extend(dept_authors(dept_id, affil_id))
 
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+    with ThreadPoolExecutor() as executor:
         for author in authors:
             executor.submit(dept_ipr_worker, author['id'], worker_result)
 
-    return utils.format_output(worker_result, output_format, pretty_print, xml_library)
+    return utils.format_output(worker_result, output_format)
 
 
 def dept_ipr_worker(author_id, worker_result):

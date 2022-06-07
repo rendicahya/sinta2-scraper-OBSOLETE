@@ -8,20 +8,20 @@ import utils
 from utils.config import get_config
 
 
-def affil(affil_ids, output_format='dictionary', pretty_print=None, xml_library='dicttoxml', max_workers=None):
+def affil(affil_ids, output_format='dictionary'):
     if type(affil_ids) is not list and type(affil_ids) is not tuple:
         affil_ids = [affil_ids]
 
     worker_result = []
 
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+    with ThreadPoolExecutor() as executor:
         for affil_id in affil_ids:
             executor.submit(affil_worker, affil_id, worker_result)
 
     if len(worker_result) == 1:
         worker_result = worker_result[0]
 
-    return utils.format_output(worker_result, output_format, pretty_print, xml_library)
+    return utils.format_output(worker_result, output_format)
 
 
 def affil_worker(affil_id, worker_result):
@@ -56,8 +56,7 @@ def affil_worker(affil_id, worker_result):
     worker_result.append(result_data)
 
 
-def affil_authors(affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
-                  max_workers=None):
+def affil_authors(affil_id, output_format='dictionary'):
     domain = get_config()['domain']
     url = f'{domain}/affiliations/detail?id={affil_id}&view=authors'
     html = get(url)
@@ -66,11 +65,11 @@ def affil_authors(affil_id, output_format='dictionary', pretty_print=None, xml_l
     n_page = utils.cast(page_info[0].text.strip().split()[3])
     worker_result = author_parser(soup)
 
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+    with ThreadPoolExecutor() as executor:
         for page in range(2, n_page + 1):
             executor.submit(affil_authors_page_worker, affil_id, page, worker_result)
 
-    return utils.format_output(worker_result, output_format, pretty_print, xml_library)
+    return utils.format_output(worker_result, output_format)
 
 
 def affil_authors_page_worker(affil_id, page, worker_result):

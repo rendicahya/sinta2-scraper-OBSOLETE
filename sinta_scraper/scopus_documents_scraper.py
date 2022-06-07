@@ -11,8 +11,7 @@ from utils.config import get_config
 from utils.utils import cast, format_output, listify
 
 
-def author_scopus_docs(author_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
-                       min_date=None, max_date=None, max_workers=None):
+def author_scopus(author_id, output_format='dictionary', min_date=None, max_date=None):
     domain = get_config()['domain']
     url = f'{domain}/authors/detail?id={author_id}&view=documentsscopus'
     html = get(url)
@@ -22,7 +21,7 @@ def author_scopus_docs(author_id, output_format='dictionary', pretty_print=None,
     worker_result = parse(soup)
     date_format = '%Y-%m-%d'
 
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+    with ThreadPoolExecutor() as executor:
         for page in range(2, n_page + 1):
             executor.submit(worker, author_id, page, worker_result)
 
@@ -34,23 +33,21 @@ def author_scopus_docs(author_id, output_format='dictionary', pretty_print=None,
         max_date_parsed = datetime.strptime(max_date, date_format)
         worker_result = [doc for doc in worker_result if datetime.strptime(doc['date'], date_format) <= max_date_parsed]
 
-    return format_output(worker_result, output_format, pretty_print, xml_library)
+    return format_output(worker_result, output_format)
 
 
-def author_scopus_journal_docs(author_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
-                               min_date=None, max_date=None, max_workers=None):
-    docs = author_scopus_docs(author_id, min_date=min_date, max_date=max_date, max_workers=max_workers)
+def author_scopus_journal(author_id, output_format='dictionary', min_date=None, max_date=None):
+    docs = author_scopus(author_id, min_date=min_date, max_date=max_date)
     journal_docs = [doc for doc in docs if doc['type'] == 'Journal']
 
-    return format_output(journal_docs, output_format, pretty_print, xml_library)
+    return format_output(journal_docs, output_format)
 
 
-def author_scopus_conference_docs(author_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
-                                  min_date=None, max_date=None, max_workers=None):
-    docs = author_scopus_docs(author_id, min_date=min_date, max_date=max_date, max_workers=max_workers)
+def author_scopus_conference(author_id, output_format='dictionary', min_date=None, max_date=None):
+    docs = author_scopus(author_id, min_date=min_date, max_date=max_date)
     journal_docs = [doc for doc in docs if doc['type'].startswith('Conference')]
 
-    return format_output(journal_docs, output_format, pretty_print, xml_library)
+    return format_output(journal_docs, output_format)
 
 
 def worker(author_id, page, worker_result):
@@ -92,8 +89,7 @@ def parse(soup):
     return result
 
 
-def dept_scopus_docs(dept_ids, affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
-                     max_workers=None):
+def dept_scopus(dept_ids, affil_id, output_format='dictionary', max_workers=None):
     dept_ids = listify(dept_ids)
 
     authors = []
@@ -106,10 +102,10 @@ def dept_scopus_docs(dept_ids, affil_id, output_format='dictionary', pretty_prin
         for author in authors:
             executor.submit(dept_scopus_docs_worker, author['id'], worker_result)
 
-    return format_output(worker_result, output_format, pretty_print, xml_library)
+    return format_output(worker_result, output_format)
 
 
 def dept_scopus_docs_worker(author_id, worker_result):
-    researches = author_scopus_docs(author_id)
+    researches = author_scopus(author_id)
 
     worker_result.extend(researches)

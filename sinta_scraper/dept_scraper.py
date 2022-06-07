@@ -4,12 +4,11 @@ from concurrent.futures import ThreadPoolExecutor
 from bs4 import BeautifulSoup
 from requests import get
 
-from utils.utils import format_output, cast, listify
 from utils.config import get_config
+from utils.utils import format_output, cast, listify
 
 
-def retrieve_authors(dept_id, affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
-                     max_workers=None):
+def retrieve_authors(dept_id, affil_id, output_format='dictionary'):
     domain = get_config()['domain']
     url = f'{domain}/departments/detail?afil={affil_id}&id={dept_id}&view=authors'
     html = get(url)
@@ -18,11 +17,11 @@ def retrieve_authors(dept_id, affil_id, output_format='dictionary', pretty_print
     n_page = cast(page_info[0].text.strip().split()[3])
     worker_result = author_parser(soup)
 
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+    with ThreadPoolExecutor() as executor:
         for page in range(2, n_page + 1):
             executor.submit(retrieve_authors_worker, dept_id, affil_id, page, worker_result)
 
-    return format_output(worker_result, output_format, pretty_print, xml_library)
+    return format_output(worker_result, output_format)
 
 
 def retrieve_authors_worker(dept_id, affil_id, page, worker_result):
@@ -52,16 +51,15 @@ def author_parser(soup):
     return result
 
 
-def dept_authors(dept_ids, affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
-                 max_workers=None):
+def dept_authors(dept_ids, affil_id, output_format='dictionary'):
     dept_ids = listify(dept_ids)
     worker_result = []
 
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+    with ThreadPoolExecutor() as executor:
         for dept_id in dept_ids:
             executor.submit(dept_authors_worker, dept_id, affil_id, worker_result)
 
-    return format_output(worker_result, output_format, pretty_print, xml_library)
+    return format_output(worker_result, output_format)
 
 
 def dept_authors_worker(dept_id, affil_id, worker_result):
