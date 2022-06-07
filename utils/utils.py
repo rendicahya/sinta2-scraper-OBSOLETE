@@ -6,17 +6,15 @@ from string_utils.validation import is_integer, is_decimal
 
 def format_output(obj, output_format):
     if output_format == 'json':
-        output = json.dumps(obj)
+        return json.dumps(obj)
     elif output_format == 'json-pretty':
-        output = json.dumps(obj, indent=4)
+        return json.dumps(obj, indent=4)
     elif output_format == 'xml':
-        output = dict2xml(obj, wrap='author')
+        return dict2xml(obj, wrap='author')
     elif output_format == 'xml-pretty':
-        output = dict2xml(obj, wrap='author', indent='    ')
+        return dict2xml(obj, wrap='author', indent='    ')
     else:
-        output = obj
-
-    return output
+        return obj
 
 
 def cast(string: str):
