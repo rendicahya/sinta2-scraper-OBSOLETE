@@ -126,12 +126,13 @@ def dept_scholar_parser(soup, min_year, max_year):
         year = cast(info[3].strip())
         publisher_full = info[0].strip()
         publisher_parsed = publisher_regex.search(publisher_full)
+        publisher_fields = 'full', 'name', 'volume', 'issue', 'pages', 'year'
 
         if publisher_parsed:
-            fields = 'full', 'name', 'volume', 'issue', 'pages', 'year'
-            publisher = {field: cast(publisher_parsed.group(i)) for i, field in enumerate(fields)}
+            publisher = {field: cast(publisher_parsed.group(i)) for i, field in enumerate(publisher_fields)}
         else:
-            publisher = publisher_full
+            publisher = {field: None for i, field in enumerate(publisher_fields, start=1)}
+            publisher['full'] = publisher_full
 
         if (min_year is not None and is_integer(str(year)) and int(year) < min_year) or (
                 max_year is not None and is_integer(str(year)) and int(year) > min_year):
@@ -147,3 +148,7 @@ def dept_scholar_parser(soup, min_year, max_year):
         })
 
     return result
+
+
+if __name__ == '__main__':
+    print(dept_scholar(55101, 404, output_format='json-pretty'))
