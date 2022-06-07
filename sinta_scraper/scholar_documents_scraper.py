@@ -9,8 +9,7 @@ from utils.config import get_config
 from utils.utils import cast, format_output, listify
 
 
-def author_scholar_docs(author_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
-                        min_year=None, max_year=None, max_workers=None):
+def author_scholar(author_id, output_format='dictionary', min_year=None, max_year=None):
     domain = get_config()['domain']
     url = f'{domain}/authors/detail?id={author_id}&view=documentsgs'
     html = get(url)
@@ -19,7 +18,7 @@ def author_scholar_docs(author_id, output_format='dictionary', pretty_print=None
     n_page = cast(page_info[0].text.strip().split()[3])
     worker_result = author_scholar_parser(soup)
 
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+    with ThreadPoolExecutor() as executor:
         for page in range(2, n_page + 1):
             executor.submit(author_scholar_worker, author_id, page, worker_result)
 
@@ -29,7 +28,7 @@ def author_scholar_docs(author_id, output_format='dictionary', pretty_print=None
     if max_year is not None:
         worker_result = [doc for doc in worker_result if is_integer(str(doc['year'])) and doc['year'] <= max_year]
 
-    return format_output(worker_result, output_format, pretty_print, xml_library)
+    return format_output(worker_result, output_format)
 
 
 def author_scholar_worker(author_id, page, worker_result):
@@ -78,8 +77,7 @@ def author_scholar_parser(soup):
     return result
 
 
-def dept_scholar_docs(dept_ids, affil_id, output_format='dictionary', pretty_print=None, xml_library='dicttoxml',
-                      min_year=None, max_year=None):
+def dept_scholar(dept_ids, affil_id, output_format='dictionary', min_year=None, max_year=None):
     dept_ids = listify(dept_ids)
     worker_result = []
 
@@ -97,7 +95,7 @@ def dept_scholar_docs(dept_ids, affil_id, output_format='dictionary', pretty_pri
             for page in range(2, n_page + 1):
                 executor.submit(dept_scholar_worker, dept_id, affil_id, page, min_year, max_year, worker_result)
 
-    return format_output(worker_result, output_format, pretty_print, xml_library)
+    return format_output(worker_result, output_format)
 
 
 def dept_scholar_worker(dept_id, affil_id, page, min_year, max_year, worker_result):
