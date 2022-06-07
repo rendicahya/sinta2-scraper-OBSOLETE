@@ -9,6 +9,10 @@ def format_output(obj, output_format, pretty_print, xml_library):
     if output_format == 'json':
         json_indent = 4 if pretty_print else None
         output = json.dumps(obj, indent=json_indent)
+    elif output_format == 'json-pretty':
+        output = json.dumps(obj, indent=4)
+    elif output_format == 'xml-pretty':
+        output = dict2xml(obj, wrap='author', indent='    ')
     elif output_format == 'xml':
         if pretty_print:
             output = dict2xml(obj, wrap='author', indent='    ')
