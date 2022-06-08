@@ -5,7 +5,7 @@ with open('README.md', 'r') as fh:
 
 setuptools.setup(
     name='sinta-scraper',
-    version='1.2.1',
+    version='1.3.0',
     author='Randy Cahya Wihandika',
     author_email='rendicahya@gmail.com',
     description='Retrieves information from Sinta (https://sinta.kemdikbud.go.id) via scraping.',
@@ -13,7 +13,7 @@ setuptools.setup(
     long_description_content_type='text/markdown',
     url='https://github.com/rendicahya/sinta-scraper',
     packages=setuptools.find_packages(),
-    install_requires=['beautifulsoup4', 'requests', 'dict2xml', 'python-string-utils'],
+    install_requires=['beautifulsoup4', 'requests', 'dict2xml', 'python-string-utils', 'pandas'],
     classifiers=[
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',

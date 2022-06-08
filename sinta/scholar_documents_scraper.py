@@ -16,7 +16,7 @@ def author_scholar(author_id, output_format='dictionary', min_year=None, max_yea
     soup = BeautifulSoup(html.content, 'html.parser')
     page_info = soup.select('.uk-width-large-1-2.table-footer')
     n_page = cast(page_info[0].text.strip().split()[3])
-    worker_result = author_scholar_parser(soup)
+    worker_result = author_scholar_parser(soup, min_year, max_year, output_format)
 
     with ThreadPoolExecutor() as executor:
         for page in range(2, n_page + 1):
@@ -31,17 +31,17 @@ def author_scholar(author_id, output_format='dictionary', min_year=None, max_yea
     return format_output(worker_result, output_format)
 
 
-def author_scholar_worker(author_id, page, worker_result):
+def author_scholar_worker(author_id, page, min_year, max_year, output_format, worker_result):
     domain = get_config()['domain']
     url = f'{domain}/authors/detail?page={page}&id={author_id}&view=documentsgs'
     html = get(url)
     soup = BeautifulSoup(html.content, 'html.parser')
-    data = author_scholar_parser(soup)
+    data = author_scholar_parser(soup, min_year, max_year, output_format)
 
     worker_result.extend(data)
 
 
-def author_scholar_parser(soup):
+def author_scholar_parser(soup, min_year, max_year, output_format):
     rows = soup.select('table.uk-table tr')
     result = []
     publisher_regex = re.compile(r'([A-Za-z ]+)\s*(\d+)\s*\((\d+)\)[,\s]*(\d+-*\d*)[,\s]*(\d{4})*')
@@ -56,14 +56,23 @@ def author_scholar_parser(soup):
         authors = row.select('dd')[0].text.split(', ')
         info = row.select('dd.indexed-by')[0].text.strip().split('|')
         citations = row.select('.index-val')[1].text.strip()
+        year = cast(info[3].strip())
         publisher_full = info[0].strip()
         publisher_parsed = publisher_regex.search(publisher_full)
+        publisher_fields = 'full', 'name', 'volume', 'issue', 'pages', 'year'
 
-        if publisher_parsed:
-            fields = 'full', 'name', 'volume', 'issue', 'pages', 'year'
-            publisher = {field: cast(publisher_parsed.group(i)) for i, field in enumerate(fields)}
-        else:
+        if output_format == 'dataframe':
+            authors = ', '.join(authors)
             publisher = publisher_full
+        elif publisher_parsed:
+            publisher = {field: cast(publisher_parsed.group(i)) for i, field in enumerate(publisher_fields)}
+        else:
+            publisher = {field: None for i, field in enumerate(publisher_fields, start=1)}
+            publisher['full'] = publisher_full
+
+        if (min_year is not None and is_integer(str(year)) and int(year) < min_year) or (
+                max_year is not None and is_integer(str(year)) and int(year) > min_year):
+            continue
 
         result.append({
             'title': link.text,
@@ -89,26 +98,27 @@ def dept_scholar(dept_ids, affil_id, output_format='dictionary', min_year=None, 
         page_info = soup.select('.uk-width-large-1-2.table-footer')
         n_page = cast(page_info[0].text.strip().split()[3])
 
-        worker_result.extend(dept_scholar_parser(soup, min_year, max_year))
+        worker_result.extend(dept_scholar_parser(soup, min_year, max_year, output_format))
 
         with ThreadPoolExecutor() as executor:
             for page in range(2, n_page + 1):
-                executor.submit(dept_scholar_worker, dept_id, affil_id, page, min_year, max_year, worker_result)
+                executor.submit(dept_scholar_worker, dept_id, affil_id, page, min_year, max_year, output_format,
+                                worker_result)
 
     return format_output(worker_result, output_format)
 
 
-def dept_scholar_worker(dept_id, affil_id, page, min_year, max_year, worker_result):
+def dept_scholar_worker(dept_id, affil_id, page, min_year, max_year, output_format, worker_result):
     domain = get_config()['domain']
     url = f'{domain}/departments/detail?page={page}&id={dept_id}&afil={affil_id}&view=documents'
     html = get(url)
     soup = BeautifulSoup(html.content, 'html.parser')
-    result = dept_scholar_parser(soup, min_year, max_year)
+    result = dept_scholar_parser(soup, min_year, max_year, output_format)
 
     worker_result.extend(result)
 
 
-def dept_scholar_parser(soup, min_year, max_year):
+def dept_scholar_parser(soup, min_year, max_year, output_format):
     rows = soup.select('table.uk-table tr')
     result = []
     publisher_regex = re.compile(r'([A-Za-z ]+)\s*(\d+)\s*\((\d+)\)[,\s]*(\d+-*\d*)[,\s]*(\d{4})*')
@@ -128,7 +138,10 @@ def dept_scholar_parser(soup, min_year, max_year):
         publisher_parsed = publisher_regex.search(publisher_full)
         publisher_fields = 'full', 'name', 'volume', 'issue', 'pages', 'year'
 
-        if publisher_parsed:
+        if output_format == 'dataframe':
+            authors = ', '.join(authors)
+            publisher = publisher_full
+        elif publisher_parsed:
             publisher = {field: cast(publisher_parsed.group(i)) for i, field in enumerate(publisher_fields)}
         else:
             publisher = {field: None for i, field in enumerate(publisher_fields, start=1)}
@@ -148,7 +161,3 @@ def dept_scholar_parser(soup, min_year, max_year):
         })
 
     return result
-
-
-if __name__ == '__main__':
-    print(dept_scholar(55101, 404, output_format='json-pretty'))
