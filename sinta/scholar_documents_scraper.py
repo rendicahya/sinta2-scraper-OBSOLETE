@@ -134,6 +134,11 @@ def dept_scholar_parser(soup, min_year, max_year, output_format):
         info = row.select('dd.indexed-by')[0].text.strip().split('|')
         citations = row.select('.index-val')[1].text.strip()
         year = cast(info[3].strip())
+
+        if (min_year is not None and is_integer(str(year)) and int(year) < min_year) or (
+                max_year is not None and is_integer(str(year)) and int(year) > min_year):
+            continue
+
         publisher_full = info[0].strip()
         publisher_parsed = publisher_regex.search(publisher_full)
         publisher_fields = 'full', 'name', 'volume', 'issue', 'pages', 'year'
@@ -146,10 +151,6 @@ def dept_scholar_parser(soup, min_year, max_year, output_format):
         else:
             publisher = {field: None for i, field in enumerate(publisher_fields, start=1)}
             publisher['full'] = publisher_full
-
-        if (min_year is not None and is_integer(str(year)) and int(year) < min_year) or (
-                max_year is not None and is_integer(str(year)) and int(year) > min_year):
-            continue
 
         result.append({
             'title': link.text,
