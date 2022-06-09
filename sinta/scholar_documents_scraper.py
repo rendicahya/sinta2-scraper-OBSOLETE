@@ -135,8 +135,8 @@ def dept_scholar_parser(soup, min_year, max_year, output_format):
         citations = row.select('.index-val')[1].text.strip()
         year = cast(info[3].strip())
 
-        if (min_year is not None and is_integer(str(year)) and int(year) < min_year) or (
-                max_year is not None and is_integer(str(year)) and int(year) > min_year):
+        if (min_year is not None and is_integer(str(year)) and int(year) < min_year) or \
+                (max_year is not None and is_integer(str(year)) and int(year) > min_year):
             continue
 
         publisher_full = info[0].strip()
