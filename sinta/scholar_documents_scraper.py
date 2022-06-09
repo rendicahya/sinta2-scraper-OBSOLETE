@@ -89,9 +89,9 @@ def author_scholar_parser(soup, min_year, max_year, output_format):
 def dept_scholar(dept_ids, affil_id, output_format='dictionary', min_year=None, max_year=None):
     dept_ids = listify(dept_ids)
     worker_result = []
+    domain = get_config()['domain']
 
     for dept_id in dept_ids:
-        domain = get_config()['domain']
         url = f'{domain}/departments/detail?afil={affil_id}&id={dept_id}&view=documents'
         html = get(url)
         soup = BeautifulSoup(html.content, 'html.parser')
