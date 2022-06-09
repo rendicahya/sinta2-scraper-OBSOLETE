@@ -21,7 +21,7 @@ def format_output(obj, output_format):
 
 
 def cast(string: str):
-    if string is None:
+    if not string:
         return None
 
     string = string.strip()
@@ -30,7 +30,7 @@ def cast(string: str):
         return int(string)
     elif is_decimal(string):
         return float(string)
-    elif string == '-':
+    elif string == '-' or string == '':
         return None
     else:
         return string
