@@ -89,7 +89,7 @@ def parse(soup):
     return result
 
 
-def dept_scopus(dept_ids, affil_id, output_format='dictionary', max_workers=None):
+def dept_scopus(dept_ids, affil_id, output_format='dictionary'):
     dept_ids = listify(dept_ids)
 
     authors = []
@@ -98,7 +98,7 @@ def dept_scopus(dept_ids, affil_id, output_format='dictionary', max_workers=None
     for dept_id in dept_ids:
         authors.extend(dept_authors(dept_id, affil_id))
 
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
+    with ThreadPoolExecutor() as executor:
         for author in authors:
             executor.submit(dept_scopus_docs_worker, author['id'], worker_result)
 
