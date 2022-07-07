@@ -4,6 +4,9 @@
 
 Retrieves information from Sinta (https://sinta.kemdikbud.go.id) via scraping.
 
+## Attention!
+Since SINTA version 2 has been dropped, this library can no longer be used. Use [sinta3-scraper](https://github.com/rendicahya/sinta3-scraper) instead.
+
 ## Code Sample
 
 Code sample for all functions is available as a Google Colab
@@ -18,7 +21,7 @@ Dependencies: `beautifulsoup4`, `requests`, `dicttoxml`, `dict2xml`, and `python
 
 ## Importing
 
-`import sinta_scraper as sinta`
+`import sinta`
 
 ## Available Functions
 
