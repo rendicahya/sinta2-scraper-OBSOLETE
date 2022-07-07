@@ -29,18 +29,18 @@ Dependencies: `beautifulsoup4`, `requests`, `dicttoxml`, `dict2xml`, and `python
 - [`affil_authors()`](#affil_authors)
 - [`author()`](#author)
 - [`author_researches()`](#author_researches)
-- [`author_scholar_docs()`](#author_scholar_docs)
-- [`author_scopus_docs()`](#author_scopus_docs)
-- [`author_scopus_journal_docs()`](#author_scopus_journal_docs)
-- [`author_scopus_conference_docs()`](#author_scopus_conference_docs)
-- [`author_wos_docs()`](#author_wos_docs)
+- [`author_scholar()`](#author_scholar)
+- [`author_scopus()`](#author_scopus)
+- [`author_scopus_journal()`](#author_scopus_journal)
+- [`author_scopus_conference()`](#author_scopus_conference)
+- [`author_wos()`](#author_wos)
 - [`author_comm_services()`](#author_comm_services)
 - [`author_ipr()`](#author_ipr)
 - [`dept_authors()`](#dept_authors)
 - [`dept_researches()`](#dept_researches)
-- [`dept_scholar_docs()`](#dept_scholar_docs)
-- [`dept_scopus_docs()`](#dept_scopus_docs)
-- [`dept_wos_docs()`](#dept_wos_docs)
+- [`dept_scholar()`](#dept_scholar)
+- [`dept_scopus()`](#dept_scopus)
+- [`dept_wos()`](#dept_wos)
 - [`dept_comm_services()`](#dept_comm_services)
 - [`dept_ipr()`](#dept_ipr)
 
@@ -241,13 +241,13 @@ Output:
 ]
 ```
 
-- ### `author_scholar_docs()`
+- ### `author_scholar()`
 
 Retrieves an author's Google Scholar items. For example:
 
 ```
 author_id = 6005015
-scholar_docs = sinta.author_scholar_docs(author_id)
+scholar_docs = sinta.author_scholar(author_id)
 
 print(scholar_docs)
 ```
@@ -270,16 +270,16 @@ You can also specify the minimum and maximum year. For example:
 
 ```
 author_id = 6005015
-scholar_docs = sinta.author_scholar_docs(author_id, min_year=2017, max_year=2020)
+scholar_docs = sinta.author_scholar(author_id, min_year=2017, max_year=2020)
 ```
 
-- ### `author_scopus_docs()`
+- ### `author_scopus()`
 
 Retrieves an author's Scopus documents. For example:
 
 ```
 author_id = 6005015
-scopus_docs = sinta.author_scopus_docs(author_id)
+scopus_docs = sinta.author_scopus(author_id)
 
 print(scopus_docs)
 ```
@@ -304,16 +304,16 @@ You can also specify the minimum and maximum date. The date must be in "yyyy-mm-
 
 ```
 author_id = 6005015
-scopus_docs = sinta.author_scopus_docs(author_id, min_date='2015-01-01', max_date='2019-12-31')
+scopus_docs = sinta.author_scopus(author_id, min_date='2015-01-01', max_date='2019-12-31')
 ```
 
-- ### `author_scopus_journal_docs()`
+- ### `author_scopus_journal()`
 
 Retrieves an author's Scopus journal documents. For example:
 
 ```
 author_id = 6005015
-scopus_journal_docs = sinta.author_scopus_journal_docs(author_id)
+scopus_journal = sinta.author_scopus_journal(author_id)
 ```
 
 Output:
@@ -332,13 +332,13 @@ Output:
 ]
 ```
 
-- ### `author_scopus_conference_docs()`
+- ### `author_scopus_conference()`
 
 Retrieves an author's Scopus conference documents. For example:
 
 ```
 author_id = 6005015
-scopus = sinta.author_scopus_conference_docs(author_id)
+scopus = sinta.author_scopus_conference(author_id)
 ```
 
 Output:
@@ -357,13 +357,13 @@ Output:
 ]
 ```
 
-- ### `author_wos_docs()`
+- ### `author_wos()`
 
 Retrieves an author's Web of Science documents. For example:
 
 ```
 author_id = 6005015
-wos_docs = sinta.author_wos_docs(author_id)
+wos_docs = sinta.author_wos(author_id)
 
 print(wos_docs)
 ```
@@ -499,14 +499,14 @@ affil_id = 417
 researches = sinta.dept_researches(dept_id, affil_id)
 ```
 
-- ### `dept_scholar_docs()`
+- ### `dept_scholar()`
 
 Retrieves all Google Scholar documents written by authors associated with a department. For example:
 
 ```
 dept_id = 55201
 affil_id = 404
-scholar_docs = sinta.dept_scholar_docs(dept_id, affil_id)
+scholar_docs = sinta.dept_scholar(dept_id, affil_id)
 
 print(scholar_docs)
 ```
@@ -525,14 +525,14 @@ Output:
 ]
 ```
 
-- ### `dept_scopus_docs()`
+- ### `dept_scopus()`
 
 Retrieves all Scopus documents written by authors associated with a department. For example:
 
 ```
 dept_id = 55201
 affil_id = 404
-scopus_docs = sinta.dept_scopus_docs(dept_id, affil_id)
+scopus_docs = sinta.dept_scopus(dept_id, affil_id)
 
 print(scopus_docs)
 ```
@@ -553,14 +553,14 @@ Output:
 ]
 ```
 
-- ### `dept_wos_docs()`
+- ### `dept_wos()`
 
 Retrieves all WoS documents written by authors associated with a department. For example:
 
 ```
 dept_id = 55001
 affil_id = 417
-wos_docs = sinta.dept_wos_docs(dept_id, affil_id)
+wos_docs = sinta.dept_wos(dept_id, affil_id)
 
 print(wos_docs)
 ```
@@ -651,24 +651,14 @@ Avalable output formats:
 
 - `'dictionary'` (default)
 - `'json'`
+- `'json-pretty'`
 - `'xml'`
-
-JSON output can be pretty-printed by setting `pretty_print=True`:
-
-```
-author = sinta.author(id, output_format='json', pretty_print=True)
-```
-
-For XML output, there are two library options which can be specified in the `xml_library` argument. These libraries give
-different output formats. The options are:
-
-- `dicttoxml` (default)
-- `dict2xml`
+- `'xml-pretty'`
 
 Please note that the output is not wrapped in a root element. For example:
 
 ```
-author = sinta.author(id, output_format='xml', xml_library='dict2xml')
+author = sinta.author(id, output_format='xml')
 ```
 
 Output:
@@ -742,94 +732,11 @@ Output:
 </wos>
 ```
 
-If you want the XML output to be pretty-printed, you need to choose `dict2xml` instead of `xmltodict` since the latter
-does not produce pretty-printed XML output. By pretty-printing, the output is wrapped in a root element. For example:
-
-```
-author_id = '5975467'
-author = sinta.author(author_id, output_format='xml', xml_library='dict2xml', pretty_print=True)
-
-print(author)
-```
-
-Output:
-
-```
-<author>
-    <affiliation>
-        <id>417</id>
-        <name>Institut Teknologi Sepuluh Nopember</name>
-        <url>http://sinta.ristekbrin.go.id/affiliations/detail/?id=417&amp;view=overview</url>
-    </affiliation>
-    <areas>computer vision</areas>
-    <areas>image processing</areas>
-    <areas>information retrieval</areas>
-    <areas>medical imaging</areas>
-    <areas>machine learning</areas>
-    <books>0</books>
-    <department>Teknik Informatika</department>
-    <id>5975467</id>
-    <ipr>2</ipr>
-    <name>AGUS ZAINAL ARIFIN</name>
-    <rank>
-        <_3_years_affiliation>30</_3_years_affiliation>
-        <_3_years_national>1099</_3_years_national>
-        <affiliation>32</affiliation>
-        <national>723</national>
-    </rank>
-    <scholar>
-        <citations>1444</citations>
-        <documents>294</documents>
-        <g-index>31</g-index>
-        <h-index>16</h-index>
-        <i10-index>36</i10-index>
-    </scholar>
-    <scopus>
-        <Q1>6</Q1>
-        <Q2>12</Q2>
-        <Q3>13</Q3>
-        <Q4>3</Q4>
-        <articles>39</articles>
-        <citations>469</citations>
-        <conferences>30</conferences>
-        <documents>69</documents>
-        <g-index>1</g-index>
-        <h-index>10</h-index>
-        <i10-index>10</i10-index>
-        <others>0</others>
-        <undefined>35</undefined>
-    </scopus>
-    <score>
-        <_3_years>3.13</_3_years>
-        <_3_years_v2>1377.5</_3_years_v2>
-        <overall>48.1</overall>
-        <overall_v2>4726.0</overall_v2>
-    </score>
-    <sinta>
-        <S0>1</S0>
-        <S1>8</S1>
-        <S2>3</S2>
-        <S3>3</S3>
-        <S4>7</S4>
-        <S5>0</S5>
-        <uncategorized>272</uncategorized>
-    </sinta>
-    <url>https://sinta.kemdikbud.go.id/authors/detail?id=5975467&amp;view=overview</url>
-    <wos>
-        <citations>None</citations>
-        <documents>1</documents>
-        <g-index>None</g-index>
-        <h-index>None</h-index>
-        <i10-index>None</i10-index>
-    </wos>
-</author>
-```
-
 ### Todo
 
 - Other output formats: CSV.
-- `dept_scopus_journal_docs(dept_id)` function.
-- `dept_scopus_conference_docs(dept_id)` function.
+- `dept_scopus_journal(dept_id)` function.
+- `dept_scopus_conference(dept_id)` function.
 - `find_affil(keyword)` function.
 - `affil_depts(affil_id)` function.
 - `dept(dept_id)` function.
